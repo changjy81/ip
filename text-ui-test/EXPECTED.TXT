@@ -17,10 +17,55 @@
 	 I'm tracking 3 of your tasks now.
 	____________________________________________________________
 	____________________________________________________________
+	 Much ado about this todo.
+	   [T][ ] join sports club
+	 I'm tracking 4 of your tasks now.
+	____________________________________________________________
+	____________________________________________________________
+	 Much ado about this todo.
+	   [T][ ] borrow book
+	 I'm tracking 5 of your tasks now.
+	____________________________________________________________
+	____________________________________________________________
+	 Got that done, have you? Good.
+	   [T][X] borrow book
+	____________________________________________________________
+	____________________________________________________________
+	 Got that done, have you? Good.
+	   [D][X] return book (by Sunday)
+	____________________________________________________________
+	____________________________________________________________
+	 Got that done, have you? Good.
+	   [E][X] project meeting (from: Mon 2pm to: 4pm)
+	____________________________________________________________
+	____________________________________________________________
+	 Got that done, have you? Good.
+	   [T][X] join sports club
+	____________________________________________________________
+	____________________________________________________________
+	 Hm? Better get on that then.
+	   [D][ ] return book (by Sunday)
+	____________________________________________________________
+	____________________________________________________________
 	 Let's see. You wanted to do these.
-	 1.[T][ ] borrow book
+	 1.[T][X] borrow book
 	 2.[D][ ] return book (by Sunday)
-	 3.[E][ ] project meeting (from: Mon 2pm to: 4pm)
+	 3.[E][X] project meeting (from: Mon 2pm to: 4pm)
+	 4.[T][X] join sports club
+	 5.[T][ ] borrow book
+	____________________________________________________________
+	____________________________________________________________
+	 A vanished opportunity, or running away?
+	 No matter. It's been removed.
+	   [E][X] project meeting (from: Mon 2pm to: 4pm)
+	 I'm tracking 4 of your tasks now.
+	____________________________________________________________
+	____________________________________________________________
+	 Let's see. You wanted to do these.
+	 1.[T][X] borrow book
+	 2.[D][ ] return book (by Sunday)
+	 3.[T][X] join sports club
+	 4.[T][ ] borrow book
 	____________________________________________________________
 	____________________________________________________________
 	 Well. Be on your way, then.

@@ -24,6 +24,8 @@ public class Astraea {
                     deadline(tokens);
                 else if (tokens[0].equals("event"))
                     event(tokens);
+                else if (tokens[0].equals("delete"))
+                    delete(tokens);
                 else
                     cannotParse();
             } catch (AstraeaInputException ae) {
@@ -145,7 +147,7 @@ public class Astraea {
     private static void list() {
         if (list.isEmpty()) {
             System.out.println(separator);
-            System.out.println("\t You haven't added any tasks yet.");
+            System.out.println("\t You don't have any tasks on my records.");
             System.out.println(separator);
             return;
         }
@@ -185,6 +187,25 @@ public class Astraea {
             System.out.println(separator);
             System.out.println("\t Hm? Better get on that then.");
             System.out.println("\t   " + list.get(index - 1));
+            System.out.println(separator);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println(separator);
+            System.out.println("\t The index you gave me is out of bounds. Try checking list.");
+            System.out.println(separator);
+        }
+    }
+
+    private static void delete(String[] inputs) throws AstraeaInputException {
+        if (inputs.length != 2 || !isNumeric(inputs[1])) {
+            throw new AstraeaInputException("delete");
+        }
+        int index = Integer.parseInt(inputs[1]);
+        try {
+            Task task = list.remove(index - 1);
+            System.out.println(separator);
+            System.out.println("\t A vanished opportunity, or running away?\n\t No matter. It's been removed.");
+            System.out.println("\t   " + task);
+            System.out.println("\t I'm tracking " + list.size() + " of your tasks now.");
             System.out.println(separator);
         } catch (IndexOutOfBoundsException e) {
             System.out.println(separator);
