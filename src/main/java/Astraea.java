@@ -17,8 +17,12 @@ public class Astraea {
                 setDone(Integer.parseInt(tokens[1]));
             else if (tokens[0].equals("unmark") && tokens.length == 2 && isNumeric(tokens[1]))
                 setUndone(Integer.parseInt(tokens[1]));
-            else
-                store(input);
+            else if (tokens[0].equals("todo"))
+                todo(input);
+            else if (tokens[0].equals("deadline"))
+                deadline(tokens);
+            else if (tokens[0].equals("event"))
+                event(tokens);
             input = scan.nextLine();
         }
         exit();
@@ -30,6 +34,7 @@ public class Astraea {
         System.out.println(separator);
     }
 
+    /*
     private static void echo(String msg) {
         System.out.println(separator);
         System.out.println("\t "+msg);
@@ -42,9 +47,86 @@ public class Astraea {
         System.out.println("\t added: "+msg);
         System.out.println(separator);
     }
+     */
+
+    private static void todo(String input) {
+        if (input.length() <= 5) return;
+        String name = input.substring(5);
+        if (!name.isBlank()) {
+            Todo task = new Todo(name);
+            list.add(task);
+            System.out.println(separator);
+            System.out.println("\t Much ado about this todo.");
+            System.out.println("\t   " + task);
+            System.out.println("\t I'm tracking " + list.size() + " of your tasks now.");
+            System.out.println(separator);
+        }
+    }
+
+    private static void deadline(String[] inputs) {
+        StringBuilder name = new StringBuilder();
+        StringBuilder deadline = new StringBuilder();
+        boolean deadlineFlag = false;
+        for (int i = 1; i < inputs.length; i++) {
+            if (inputs[i].equals("/by")) {
+                deadlineFlag = true;
+                continue;
+            }
+            if (deadlineFlag) {
+                if (!deadline.isEmpty()) deadline.append(" ");
+                deadline.append(inputs[i]);
+            } else {
+                if (!name.isEmpty()) name.append(" ");
+                name.append(inputs[i]);
+            }
+        }
+        Deadline task = new Deadline(name.toString(), deadline.toString());
+        list.add(task);
+        System.out.println(separator);
+        System.out.println("\t Time's ticking on this deadline. Get to it soon.");
+        System.out.println("\t   " + task);
+        System.out.println("\t I'm tracking " + list.size() + " of your tasks now.");
+        System.out.println(separator);
+    }
+
+    private static void event(String[] inputs) {
+        StringBuilder name = new StringBuilder();
+        StringBuilder start = new StringBuilder();
+        StringBuilder end = new StringBuilder();
+        short divider = 0;
+        for (int i = 1; i < inputs.length; i++) {
+            String input = inputs[i];
+            if (input.equals("/from")) {
+                divider = 1;
+                continue;
+            }
+            if (input.equals("/to")) {
+                divider = 2;
+                continue;
+            }
+            if (divider == 2) {
+                if (!end.isEmpty()) end.append(" ");
+                end.append(input);
+            } else if (divider == 1) {
+                if (!start.isEmpty()) start.append(" ");
+                start.append(input);
+            } else {
+                if (!name.isEmpty()) name.append(" ");
+                name.append(input);
+            }
+        }
+        Event task = new Event(name.toString(), start.toString(), end.toString());
+        list.add(task);
+        System.out.println(separator);
+        System.out.println("\t A fleeting moment in time to be. Don't miss this.");
+        System.out.println("\t   " + task);
+        System.out.println("\t I'm tracking " + list.size() + " of your tasks now.");
+        System.out.println(separator);
+    }
 
     private static void list() {
         System.out.println(separator);
+        System.out.println("\t You wanted to do these.");
         for (int i = 0; i < list.size(); i++) {
             System.out.println("\t " + (i + 1) + "." + list.get(i));
         }

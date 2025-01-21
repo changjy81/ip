@@ -14,8 +14,16 @@ public class Task {
         this.done = false;
     }
 
+    public String getTaskName() {
+        return taskName;
+    }
+
+    public String getDone() {
+        return "[" + (done ? "X" : " ") + "]";
+    }
+
     @Override
     public String toString() {
-        return "[" + (done ? "X" : " ") + "] " + taskName;
+        return getDone() + " " + taskName;
     }
 }
