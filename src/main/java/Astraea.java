@@ -38,22 +38,23 @@ public class Astraea {
         while (!input.equals("bye")) {
             try {
                 String[] tokens = input.split(" ");
-                if (input.equals("list"))
+                if (input.equals("list")) {
                     list();
-                else if (tokens[0].equals("mark"))
+                } else if (tokens[0].equals("mark")) {
                     setDone(tokens);
-                else if (tokens[0].equals("unmark"))
+                } else if (tokens[0].equals("unmark")) {
                     setUndone(tokens);
-                else if (tokens[0].equals("todo"))
+                } else if (tokens[0].equals("todo")) {
                     todo(input);
-                else if (tokens[0].equals("deadline"))
+                } else if (tokens[0].equals("deadline")) {
                     deadline(tokens);
-                else if (tokens[0].equals("event"))
+                } else if (tokens[0].equals("event")) {
                     event(tokens);
-                else if (tokens[0].equals("delete"))
+                } else if (tokens[0].equals("delete")) {
                     delete(tokens);
-                else
+                } else {
                     cannotParse();
+                }
             } catch (AstraeaInputException ae) {
                 ae.print();
             } finally {
@@ -85,11 +86,12 @@ public class Astraea {
      */
 
     private static void todo(String input) throws AstraeaInputException {
-        if (input.length() <= 5)
+        if (input.length() <= 5) {
             throw new AstraeaInputException("todo_noName");
+        }
         String name = input.substring(5);
         if (name.isBlank()) {
-            return;
+            throw new AstraeaInputException("todo_noName");
         }
 
         Todo task = new Todo(name);
