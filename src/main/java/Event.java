@@ -17,6 +17,12 @@ public class Event extends Task {
     }
 
     @Override
+    public String getSaveStyle() {
+        return "E | " + (this.isDone() ? 1 : 0) + " | " + this.getTaskName()
+                + " | " + this.startTime + " | " + this.endTime;
+    }
+
+    @Override
     public String toString() {
         return "[E]" + super.toString() + " (from: " + startTime + " to: " + endTime + ")";
     }

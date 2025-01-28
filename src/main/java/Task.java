@@ -18,12 +18,20 @@ public class Task {
         return taskName;
     }
 
-    public String getDone() {
+    public boolean isDone() {
+        return done;
+    }
+
+    public String printDone() {
         return "[" + (done ? "X" : " ") + "]";
+    }
+
+    public String getSaveStyle() {
+        return "? | " + (done ? 1 : 0) + " | " + taskName;
     }
 
     @Override
     public String toString() {
-        return getDone() + " " + taskName;
+        return printDone() + " " + taskName;
     }
 }

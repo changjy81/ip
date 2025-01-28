@@ -1,3 +1,10 @@
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -5,9 +12,28 @@ public class Astraea {
     static String separator = "\t____________________________________________________________";
     static ArrayList<Task> list = new ArrayList<>(100);
     static Scanner scan = new Scanner(System.in);
+    static final String savePath = "data/tasks.txt";
 
     public static void main(String[] args) {
         intro();
+
+        try {
+            Files.createDirectories(Paths.get("data"));
+            File file = new File(savePath);
+            if (file.createNewFile()) {
+                // no task save data found, created new file
+                System.out.println("\t I have no data recorded. New storage file created.");
+                System.out.println(separator);
+            } else {
+                // TODO: read data
+                System.out.println("\t I've retrieved your tasks from last time.");
+                System.out.println(file.getAbsoluteFile());
+                System.out.println(separator);
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
         String input = scan.nextLine();
         while (!input.equals("bye")) {
             try {
@@ -62,13 +88,23 @@ public class Astraea {
         if (input.length() <= 5)
             throw new AstraeaInputException("todo_noName");
         String name = input.substring(5);
-        if (!name.isBlank()) {
-            Todo task = new Todo(name);
-            list.add(task);
-            System.out.println(separator);
-            System.out.println("\t Much ado about this todo.");
-            System.out.println("\t   " + task);
-            System.out.println("\t I'm tracking " + list.size() + " of your tasks now.");
+        if (name.isBlank()) {
+            return;
+        }
+
+        Todo task = new Todo(name);
+        list.add(task);
+        System.out.println(separator);
+        System.out.println("\t Much ado about this todo.");
+        System.out.println("\t   " + task);
+        System.out.println("\t I'm tracking " + list.size() + " of your tasks now.");
+        System.out.println(separator);
+
+        try {
+            saveNewLine(task);
+        } catch (IOException exception) {
+            System.out.println("\t Something went wrong with saving data.");
+            System.out.println(exception.getMessage());
             System.out.println(separator);
         }
     }
@@ -101,6 +137,14 @@ public class Astraea {
         System.out.println("\t   " + task);
         System.out.println("\t I'm tracking " + list.size() + " of your tasks now.");
         System.out.println(separator);
+
+        try {
+            saveNewLine(task);
+        } catch (IOException exception) {
+            System.out.println("\t Something went wrong with saving data.");
+            System.out.println(exception.getMessage());
+            System.out.println(separator);
+        }
     }
 
     private static void event(String[] inputs) throws AstraeaInputException {
@@ -142,6 +186,14 @@ public class Astraea {
         System.out.println("\t   " + task);
         System.out.println("\t I'm tracking " + list.size() + " of your tasks now.");
         System.out.println(separator);
+
+        try {
+            saveNewLine(task);
+        } catch (IOException exception) {
+            System.out.println("\t Something went wrong with saving data.");
+            System.out.println(exception.getMessage());
+            System.out.println(separator);
+        }
     }
 
     private static void list() {
@@ -166,13 +218,20 @@ public class Astraea {
         int index = Integer.parseInt(inputs[1]);
         try {
             list.get(index - 1).setDone();
+
             System.out.println(separator);
             System.out.println("\t Got that done, have you? Good.");
             System.out.println("\t   " + list.get(index - 1));
             System.out.println(separator);
+
+            save();
         } catch (IndexOutOfBoundsException e) {
             System.out.println(separator);
             System.out.println("\t The index you gave me is out of bounds. Try checking list.");
+            System.out.println(separator);
+        } catch (IOException exception) {
+            System.out.println("\t Something went wrong with saving data.");
+            System.out.println(exception.getMessage());
             System.out.println(separator);
         }
     }
@@ -184,13 +243,20 @@ public class Astraea {
         int index = Integer.parseInt(inputs[1]);
         try {
             list.get(index - 1).setUndone();
+
             System.out.println(separator);
             System.out.println("\t Hm? Better get on that then.");
             System.out.println("\t   " + list.get(index - 1));
             System.out.println(separator);
+
+            save();
         } catch (IndexOutOfBoundsException e) {
             System.out.println(separator);
             System.out.println("\t The index you gave me is out of bounds. Try checking list.");
+            System.out.println(separator);
+        } catch (IOException exception) {
+            System.out.println("\t Something went wrong with saving data.");
+            System.out.println(exception.getMessage());
             System.out.println(separator);
         }
     }
@@ -202,20 +268,45 @@ public class Astraea {
         int index = Integer.parseInt(inputs[1]);
         try {
             Task task = list.remove(index - 1);
+
             System.out.println(separator);
-            System.out.println("\t A vanished opportunity, or running away?\n\t No matter. It's been removed.");
+            if (task.isDone()) {
+                System.out.println("\t All done and dusted? Tidying that up then.");
+            } else {
+                System.out.println("\t A vanished opportunity, or running away?\n\t No matter. It's been removed.");
+            }
             System.out.println("\t   " + task);
             System.out.println("\t I'm tracking " + list.size() + " of your tasks now.");
             System.out.println(separator);
-        } catch (IndexOutOfBoundsException e) {
+
+            save();
+        } catch (IndexOutOfBoundsException unused) {
             System.out.println(separator);
             System.out.println("\t The index you gave me is out of bounds. Try checking list.");
+            System.out.println(separator);
+        } catch (IOException exception) {
+            System.out.println("\t Something went wrong with saving data.");
+            System.out.println(exception.getMessage());
             System.out.println(separator);
         }
     }
 
     private static void cannotParse() throws AstraeaInputException {
         throw new AstraeaInputException("cannotParse");
+    }
+
+    private static void save() throws IOException {
+        PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("data/tasks.txt")));
+        for (Task task : list) {
+            pw.println(task.getSaveStyle());
+        }
+        pw.close();
+    }
+
+    private static void saveNewLine(Task task) throws IOException {
+        PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("data/tasks.txt", true)));
+        pw.println(task.getSaveStyle());
+        pw.close();
     }
 
     private static void exit() {

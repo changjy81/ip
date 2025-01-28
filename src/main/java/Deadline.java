@@ -11,6 +11,11 @@ public class Deadline extends Task {
     }
 
     @Override
+    public String getSaveStyle() {
+        return "D | " + (this.isDone() ? 1 : 0) + " | " + this.getTaskName() + " | " + this.getDeadline();
+    }
+
+    @Override
     public String toString() {
         return "[D]" + super.toString() + " (by " + deadline + ")";
     }
