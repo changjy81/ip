@@ -1,6 +1,6 @@
 public class AstraeaInputException extends Exception {
-    private String type;
-    static String separator = "\t____________________________________________________________";
+    private final String type;
+    private static String separator = "\t____________________________________________________________";
 
     public AstraeaInputException(String type) {
         this.type = type;
