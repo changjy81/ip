@@ -1,19 +1,19 @@
 public class Parser {
     public static Command parseInput(String input) throws AstraeaInputException {
         if (input.isEmpty()) {
-            return new Command(CommandType.INVALID, null);
+            throw new AstraeaInputException("empty");
         }
         String[] tokens = input.split("\\s+");
         String command = tokens[0];
         return switch (command) {
-            case "list" -> new Command(CommandType.LIST, null);
-            case "mark" -> new Command(CommandType.MARK, processSingleNumberToken(tokens));
-            case "unmark" -> new Command(CommandType.UNMARK, processSingleNumberToken(tokens));
-            case "todo" -> new Command(CommandType.TODO, processTodoTokens(tokens));
-            case "deadline" -> new Command(CommandType.DEADLINE, processDeadlineTokens(tokens));
-            case "event" -> new Command(CommandType.EVENT, processEventTokens(tokens));
-            case "delete" -> new Command(CommandType.DELETE, processSingleNumberToken(tokens));
-            case "bye" -> new Command(CommandType.EXIT, null);
+            case "list" -> new ListCommand(CommandType.LIST, null);
+            case "mark" -> new ToggleCommand(CommandType.MARK, processSingleNumberToken(tokens));
+            case "unmark" -> new ToggleCommand(CommandType.UNMARK, processSingleNumberToken(tokens));
+            case "todo" -> new TodoCommand(CommandType.TODO, processTodoTokens(tokens));
+            case "deadline" -> new DeadlineCommand(CommandType.DEADLINE, processDeadlineTokens(tokens));
+            case "event" -> new EventCommand(CommandType.EVENT, processEventTokens(tokens));
+            case "delete" -> new DeleteCommand(CommandType.DELETE, processSingleNumberToken(tokens));
+            case "bye" -> new ExitCommand(CommandType.EXIT, null);
             default -> throw new AstraeaInputException("invalid");
         };
     }
