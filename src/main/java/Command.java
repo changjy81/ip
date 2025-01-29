@@ -1,10 +1,10 @@
 public class Command {
     private final CommandType commandType;
-    private final String[] arguments;
+    private final String[] args;
 
-    public Command(CommandType commandType, String[] arguments) {
+    public Command(CommandType commandType, String[] args) {
         this.commandType = commandType;
-        this.arguments = arguments;
+        this.args = args;
     }
 
     public CommandType getCommandType() {
@@ -12,6 +12,10 @@ public class Command {
     }
 
     public String[] getArguments() {
-        return arguments;
+        return args;
+    }
+
+    public void execute(TaskList list, Storage storage, AstraeaUI ui) {
+        // do nothing
     }
 }
