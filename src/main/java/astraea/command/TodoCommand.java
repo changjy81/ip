@@ -1,16 +1,23 @@
+package astraea.command;
+
+import astraea.storage.Storage;
+import astraea.task.TaskList;
+import astraea.task.Todo;
+import astraea.ui.AstraeaUI;
+
 import java.io.IOException;
 
-public class EventCommand extends Command {
-    public EventCommand(CommandType type, String[] args) {
+public class TodoCommand extends Command {
+    public TodoCommand(CommandType type, String[] args) {
         super(type, args);
     }
 
     @Override
     public void execute(TaskList list, Storage storage, AstraeaUI ui) {
-        Event task = Event.createEvent(this.getArguments()[0], this.getArguments()[1], this.getArguments()[2]);
+        Todo task = new Todo(this.getArguments()[0]);
         list.add(task);
         String[] message = new String[]{
-                "A fleeting moment in time to be. Don't miss this.",
+                "Much ado about this todo.",
                 "  " + task,
                 "I'm tracking " + list.size() + " of your tasks now."
         };

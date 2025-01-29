@@ -1,3 +1,13 @@
+package astraea;
+
+import astraea.command.Command;
+import astraea.command.ExitCommand;
+import astraea.exception.AstraeaInputException;
+import astraea.parser.Parser;
+import astraea.storage.Storage;
+import astraea.task.TaskList;
+import astraea.ui.AstraeaUI;
+
 public class Astraea {
     private final AstraeaUI ui;
     private final Storage storage;

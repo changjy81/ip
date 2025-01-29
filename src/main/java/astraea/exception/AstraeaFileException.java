@@ -1,3 +1,5 @@
+package astraea.exception;
+
 public class AstraeaFileException extends Exception {
     private final String type;
 

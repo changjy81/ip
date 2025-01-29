@@ -1,3 +1,5 @@
+package astraea.ui;
+
 import java.util.Scanner;
 
 public class AstraeaUI {
@@ -9,7 +11,7 @@ public class AstraeaUI {
     }
 
     public void intro() {
-        printBoundedMessage("Astraea here. What do you want?");
+        printBoundedMessage("astraea.Astraea here. What do you want?");
     }
 
     public void exit() {

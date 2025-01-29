@@ -1,3 +1,16 @@
+package astraea.parser;
+
+import astraea.command.Command;
+import astraea.command.CommandType;
+import astraea.command.DeadlineCommand;
+import astraea.command.DeleteCommand;
+import astraea.command.EventCommand;
+import astraea.command.ExitCommand;
+import astraea.command.ListCommand;
+import astraea.command.TodoCommand;
+import astraea.command.ToggleCommand;
+import astraea.exception.AstraeaInputException;
+
 public class Parser {
     public static Command parseInput(String input) throws AstraeaInputException {
         if (input.isEmpty()) {
