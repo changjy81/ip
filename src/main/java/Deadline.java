@@ -43,4 +43,16 @@ public class Deadline extends Task {
     public String toString() {
         return "[D]" + super.toString() + " (by " + this.getDeadline() + ")";
     }
+
+    public static Deadline createDeadline(String name, String deadline) {
+        if (DateParser.isLocalDateTime(deadline)) {
+            return new Deadline(name,
+                    LocalDateTime.parse(deadline, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+        } else if (DateParser.isLocalDate(deadline)) {
+            return new Deadline(name,
+                    LocalDate.parse(deadline, DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        } else {
+            return new Deadline(name, deadline);
+        }
+    }
 }

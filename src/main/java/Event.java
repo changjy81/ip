@@ -62,4 +62,18 @@ public class Event extends Task {
     public String toString() {
         return "[E]" + super.toString() + " (from: " + this.getStartTime() + " to: " + this.getEndTime() + ")";
     }
+
+    public static Event createEvent(String name, String start, String end) {
+        if (DateParser.isLocalDateTime(start) && DateParser.isLocalDateTime(end)) {
+            LocalDateTime startTime = LocalDateTime.parse(start, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+            LocalDateTime endTime = LocalDateTime.parse(end, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+            return new Event(name, startTime, endTime);
+        } else if (DateParser.isLocalDate(start) && DateParser.isLocalDate(end)) {
+            LocalDate startDate = LocalDate.parse(start, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            LocalDate endDate = LocalDate.parse(end, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            return new Event(name, startDate, endDate);
+        } else {
+            return new Event(name, start, end);
+        }
+    }
 }
