@@ -1,3 +1,5 @@
+package astraea.task;
+
 public class Task {
     private final String taskName;
     private boolean done = false;
