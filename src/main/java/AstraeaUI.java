@@ -9,11 +9,17 @@ public class AstraeaUI {
     }
 
     public void intro() {
-        printBoundedMessage(new String[]{"Astraea here. What do you want?"});
+        printBoundedMessage("Astraea here. What do you want?");
     }
 
     public void exit() {
-        printBoundedMessage(new String[]{"Well. Be on your way, then."});
+        printBoundedMessage("Well. Be on your way, then.");
+    }
+
+    public void printBoundedMessage(String message) {
+        System.out.println(separator);
+        System.out.println("\t " + message);
+        System.out.println(separator);
     }
 
     public void printBoundedMessage(String[] message) {
@@ -21,6 +27,11 @@ public class AstraeaUI {
         for (String s : message) {
             System.out.println("\t " + s);
         }
+        System.out.println(separator);
+    }
+
+    public void printBottomBoundedMessage(String message) {
+        System.out.println("\t " + message);
         System.out.println(separator);
     }
 
