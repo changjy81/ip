@@ -7,6 +7,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -121,6 +125,7 @@ public class Astraea {
         StringBuilder name = new StringBuilder();
         StringBuilder deadline = new StringBuilder();
         boolean deadlineFlag = false;
+
         for (int i = 1; i < inputs.length; i++) {
             if (inputs[i].equals("/by")) {
                 deadlineFlag = true;
@@ -134,11 +139,15 @@ public class Astraea {
                 name.append(inputs[i]);
             }
         }
-        if (name.isEmpty())
+
+        if (name.isEmpty()) {
             throw new AstraeaInputException("deadline_noName");
-        if (deadline.isEmpty())
+        }
+        if (deadline.isEmpty()) {
             throw new AstraeaInputException("deadline_noTime");
-        Deadline task = new Deadline(name.toString(), deadline.toString());
+        }
+
+        Deadline task = createDeadline(name.toString(), deadline.toString());
         list.add(task);
         System.out.println(separator);
         System.out.println("\t Time's ticking on this deadline. Get to it soon.");
@@ -187,7 +196,8 @@ public class Astraea {
             throw new AstraeaInputException("event_noStart");
         if (end.isEmpty())
             throw new AstraeaInputException("event_noEnd");
-        Event task = new Event(name.toString(), start.toString(), end.toString());
+
+        Event task = createEvent(name.toString(), start.toString(), end.toString());
         list.add(task);
         System.out.println(separator);
         System.out.println("\t A fleeting moment in time to be. Don't miss this.");
@@ -322,6 +332,9 @@ public class Astraea {
         String line;
         Task task;
         while ((line = br.readLine()) != null) {
+            if (line.isBlank()) {
+                break;
+            }
             String[] info = line.split("(\\s\\|\\s)");
             String type = info[0];
             boolean isDone = info[1].equals("1");
@@ -332,12 +345,12 @@ public class Astraea {
                 break;
             case "D":
                 String deadline = info[3];
-                task = new Deadline(name, deadline);
+                task = createDeadline(name, deadline);
                 break;
             case "E":
                 String start = info[3];
                 String end = info[4];
-                task = new Event(name, start, end);
+                task = createEvent(name, start, end);
                 break;
             default:
                 throw new AstraeaFileException("badFileRead");
@@ -361,6 +374,51 @@ public class Astraea {
             return true;
         } catch (NumberFormatException e) {
             return false;
+        }
+    }
+
+    private static boolean isLocalDate(String str) {
+        try {
+            LocalDate.parse(str, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            return true;
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+    }
+
+    private static boolean isLocalDateTime(String str) {
+        try {
+            LocalDateTime.parse(str, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+            // System.out.println("detected datetime");
+            return true;
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+    }
+
+    private static Deadline createDeadline(String name, String deadline) {
+        if (isLocalDateTime(deadline)) {
+            return new Deadline(name,
+                    LocalDateTime.parse(deadline, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+        } else if (isLocalDate(deadline)) {
+            return new Deadline(name,
+                    LocalDate.parse(deadline, DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        } else {
+            return new Deadline(name, deadline);
+        }
+    }
+
+    private static Event createEvent(String name, String start, String end) {
+        if (isLocalDateTime(start) && isLocalDateTime(end)) {
+            LocalDateTime startTime = LocalDateTime.parse(start, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+            LocalDateTime endTime = LocalDateTime.parse(end, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+            return new Event(name, startTime, endTime);
+        } else if (isLocalDate(start) && isLocalDate(end)) {
+            LocalDate startDate = LocalDate.parse(start, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            LocalDate endDate = LocalDate.parse(end, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            return new Event(name, startDate, endDate);
+        } else {
+            return new Event(name, start, end);
         }
     }
 }
