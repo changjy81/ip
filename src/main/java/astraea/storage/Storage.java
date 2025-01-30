@@ -18,8 +18,12 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+/**
+ * Represents the object used to read from and write to files.
+ */
 public class Storage {
-    private static void read(TaskList list) throws IOException, AstraeaFileException {
+
+    private void read(TaskList list) throws IOException, AstraeaFileException {
         BufferedReader br = new BufferedReader(new FileReader("data/tasks.txt"));
         String line;
         Task task;
@@ -54,6 +58,11 @@ public class Storage {
         }
     }
 
+    /**
+     * Saves the current state of TaskList to the tasks.txt file.
+     * @param list TaskList to read and save.
+     * @throws IOException Thrown if an I/O exception occurs.
+     */
     public void save(TaskList list) throws IOException {
         PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("data/tasks.txt")));
         for (Task task : list) {
@@ -62,16 +71,27 @@ public class Storage {
         pw.close();
     }
 
+    /**
+     * Appends the given Task to the tasks.txt file.
+     * @param task Task to be saved.
+     * @throws IOException Thrown if an I/O exception occurs.
+     */
     public void saveNewLine(Task task) throws IOException {
         PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("data/tasks.txt", true)));
         pw.println(task.getSaveStyle());
         pw.close();
     }
 
-    public void load(AstraeaUI ui, TaskList list, String savePath) {
+    /**
+     * Reads the tasks.txt file and reconstructs the saved TaskList.
+     * Run on program initialization.
+     * @param ui AstraeaUI object to print to console.
+     * @param list Empty TaskList object to populate.
+     */
+    public void load(AstraeaUI ui, TaskList list) {
         try {
             Files.createDirectories(Paths.get("data"));
-            File file = new File(savePath);
+            File file = new File("data/tasks.txt");
             if (file.createNewFile()) {
                 // no task save data found, created new file
                 ui.printBottomBoundedMessage("I have no data recorded. New storage file created.");

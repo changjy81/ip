@@ -12,11 +12,9 @@ public class Astraea {
     private final AstraeaUI ui;
     private final Storage storage;
     private final TaskList taskList;
-    private final String savePath;
     private boolean isExit = false;
 
-    private Astraea(String savePath) {
-        this.savePath = savePath;
+    private Astraea() {
         this.ui = new AstraeaUI();
         this.storage = new Storage();
         this.taskList = new TaskList();
@@ -24,7 +22,7 @@ public class Astraea {
 
     private void run() {
         ui.intro();
-        storage.load(ui, taskList, savePath);
+        storage.load(ui, taskList);
         while (!isExit) {
             try {
                 String input = ui.readInput();
@@ -40,6 +38,6 @@ public class Astraea {
     }
 
     public static void main(String[] args) {
-        new Astraea("data/tasks.txt").run();
+        new Astraea().run();
     }
 }

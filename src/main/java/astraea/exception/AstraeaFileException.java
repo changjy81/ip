@@ -1,5 +1,9 @@
 package astraea.exception;
 
+/**
+ * Represents an Exception relating to file read/write in Astraea.
+ * Currently not used.
+ */
 public class AstraeaFileException extends Exception {
     private final String type;
 
