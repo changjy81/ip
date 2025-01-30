@@ -1,13 +1,5 @@
 package astraea.storage;
 
-import astraea.exception.AstraeaFileException;
-import astraea.task.Deadline;
-import astraea.task.Event;
-import astraea.task.Task;
-import astraea.task.TaskList;
-import astraea.task.Todo;
-import astraea.ui.AstraeaUI;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -17,6 +9,14 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+
+import astraea.exception.AstraeaFileException;
+import astraea.task.Deadline;
+import astraea.task.Event;
+import astraea.task.Task;
+import astraea.task.TaskList;
+import astraea.task.Todo;
+import astraea.ui.AstraeaUI;
 
 public class Storage {
     private static void read(TaskList list) throws IOException, AstraeaFileException {

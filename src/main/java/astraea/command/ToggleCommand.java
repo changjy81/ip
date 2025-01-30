@@ -1,10 +1,10 @@
 package astraea.command;
 
+import java.io.IOException;
+
 import astraea.storage.Storage;
 import astraea.task.TaskList;
 import astraea.ui.AstraeaUI;
-
-import java.io.IOException;
 
 public class ToggleCommand extends Command {
     public ToggleCommand(CommandType type, String[] args) {
@@ -19,17 +19,17 @@ public class ToggleCommand extends Command {
             if (this.getCommandType() == CommandType.MARK) {
                 list.get(index - 1).setDone();
                 message = new String[]{
-                        "Got that done, have you? Good.",
-                        "  " + list.get(index - 1)
+                    "Got that done, have you? Good.",
+                    "  " + list.get(index - 1)
                 };
             } else if (this.getCommandType() == CommandType.UNMARK) {
                 list.get(index - 1).setUndone();
                 message = new String[]{
-                        "Hm? Better get on that then.",
-                        "  " + list.get(index - 1)
+                    "Hm? Better get on that then.",
+                    "  " + list.get(index - 1)
                 };
             } else {
-                message = new String[]{ "Something went wrong with this command." };
+                message = new String[]{"Something went wrong with this command."};
             }
             ui.printBoundedMessage(message);
             storage.save(list);

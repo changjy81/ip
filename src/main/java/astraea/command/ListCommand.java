@@ -1,10 +1,10 @@
 package astraea.command;
 
+import java.util.ArrayList;
+
 import astraea.storage.Storage;
 import astraea.task.TaskList;
 import astraea.ui.AstraeaUI;
-
-import java.util.ArrayList;
 
 public class ListCommand extends Command {
     public ListCommand(CommandType type, String[] args) {

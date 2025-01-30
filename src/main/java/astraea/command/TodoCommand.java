@@ -1,11 +1,11 @@
 package astraea.command;
 
+import java.io.IOException;
+
 import astraea.storage.Storage;
 import astraea.task.TaskList;
 import astraea.task.Todo;
 import astraea.ui.AstraeaUI;
-
-import java.io.IOException;
 
 public class TodoCommand extends Command {
     public TodoCommand(CommandType type, String[] args) {
@@ -17,9 +17,9 @@ public class TodoCommand extends Command {
         Todo task = new Todo(this.getArguments()[0]);
         list.add(task);
         String[] message = new String[]{
-                "Much ado about this todo.",
-                "  " + task,
-                "I'm tracking " + list.size() + " of your tasks now."
+            "Much ado about this todo.",
+            "  " + task,
+            "I'm tracking " + list.size() + " of your tasks now."
         };
         ui.printBoundedMessage(message);
 
@@ -27,8 +27,8 @@ public class TodoCommand extends Command {
             storage.saveNewLine(task);
         } catch (IOException exception) {
             message = new String[]{
-                    "Something went wrong with saving data.",
-                    exception.getMessage()
+                "Something went wrong with saving data.",
+                exception.getMessage()
             };
             ui.printBoundedMessage(message);
         }

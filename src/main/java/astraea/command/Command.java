@@ -1,10 +1,10 @@
 package astraea.command;
 
+import java.util.Arrays;
+
 import astraea.storage.Storage;
 import astraea.task.TaskList;
 import astraea.ui.AstraeaUI;
-
-import java.util.Arrays;
 
 public class Command {
     private final CommandType commandType;
