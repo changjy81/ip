@@ -6,6 +6,7 @@ import astraea.command.DeadlineCommand;
 import astraea.command.DeleteCommand;
 import astraea.command.EventCommand;
 import astraea.command.ExitCommand;
+import astraea.command.FindCommand;
 import astraea.command.ListCommand;
 import astraea.command.TodoCommand;
 import astraea.command.ToggleCommand;
@@ -26,6 +27,7 @@ public class Parser {
             case "deadline" -> new DeadlineCommand(CommandType.DEADLINE, processDeadlineTokens(tokens));
             case "event" -> new EventCommand(CommandType.EVENT, processEventTokens(tokens));
             case "delete" -> new DeleteCommand(CommandType.DELETE, processSingleNumberToken(tokens));
+            case "find" -> new FindCommand(CommandType.FIND, processFindTokens(tokens));
             case "bye" -> new ExitCommand(CommandType.EXIT, null);
             default -> throw new AstraeaInputException("invalid");
         };
@@ -43,14 +45,26 @@ public class Parser {
         if (tokens.length < 2) {
             throw new AstraeaInputException("todo_noName");
         } else {
-            StringBuilder name = new StringBuilder();
-            for (int i = 1; i < tokens.length; i++) {
-                name.append(tokens[i]);
-                name.append(" ");
-            }
-            name.deleteCharAt(name.length() - 1);
-            return new String[] { name.toString() };
+            return getSingleStringOutput(tokens);
         }
+    }
+
+    private static String[] processFindTokens(String[] tokens) throws AstraeaInputException {
+        if (tokens.length < 2) {
+            throw new AstraeaInputException("find_noName");
+        } else {
+            return getSingleStringOutput(tokens);
+        }
+    }
+
+    private static String[] getSingleStringOutput(String[] tokens) {
+        StringBuilder name = new StringBuilder();
+        for (int i = 1; i < tokens.length; i++) {
+            name.append(tokens[i]);
+            name.append(" ");
+        }
+        name.deleteCharAt(name.length() - 1);
+        return new String[] { name.toString() };
     }
 
     private static String[] processDeadlineTokens(String[] tokens) throws AstraeaInputException {

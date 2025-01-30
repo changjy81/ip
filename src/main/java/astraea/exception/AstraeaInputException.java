@@ -44,6 +44,10 @@ public class AstraeaInputException extends Exception {
             case "empty" -> new String[]{
                     "I can't do anything with nothing, you know."
             };
+            case "find_noName" -> new String[]{
+                    "If you wanted to search for blankness I'd suggest looking in your head.",
+                    "Usage: find [query]"
+            };
             default -> new String[]{
                     "What on earth are you blabbering about?",
                     "Your first word isn't anything I can process."
