@@ -6,6 +6,7 @@ import astraea.command.DeadlineCommand;
 import astraea.command.DeleteCommand;
 import astraea.command.EventCommand;
 import astraea.command.ExitCommand;
+import astraea.command.FindCommand;
 import astraea.command.ListCommand;
 import astraea.command.TodoCommand;
 import astraea.command.ToggleCommand;
@@ -23,7 +24,7 @@ public class Parser {
      * @param input String containing the entire line of input from the user.
      * @return Command representing the action requested by user input.
      * @throws AstraeaInputException Thrown if the input is invalid, with different types based on the nature
-     * of the invalid input.
+     *                               of the invalid input.
      */
     public static Command parseInput(String input) throws AstraeaInputException {
         if (input.isEmpty()) {
@@ -39,6 +40,7 @@ public class Parser {
         case "deadline" -> new DeadlineCommand(CommandType.DEADLINE, processDeadlineTokens(tokens));
         case "event" -> new EventCommand(CommandType.EVENT, processEventTokens(tokens));
         case "delete" -> new DeleteCommand(CommandType.DELETE, processSingleNumberToken(tokens));
+        case "find" -> new FindCommand(CommandType.FIND, processFindTokens(tokens));
         case "bye" -> new ExitCommand(CommandType.EXIT, null);
         default -> throw new AstraeaInputException("invalid");
         };
@@ -46,7 +48,7 @@ public class Parser {
 
     private static String[] processSingleNumberToken(String[] tokens) throws AstraeaInputException {
         if (tokens.length == 2 && isNumeric(tokens[1])) {
-            return new String[]{tokens[1]};
+            return new String[]{ tokens[1] };
         } else {
             throw new AstraeaInputException(tokens[0]);
         }
@@ -56,14 +58,26 @@ public class Parser {
         if (tokens.length < 2) {
             throw new AstraeaInputException("todo_noName");
         } else {
-            StringBuilder name = new StringBuilder();
-            for (int i = 1; i < tokens.length; i++) {
-                name.append(tokens[i]);
-                name.append(" ");
-            }
-            name.deleteCharAt(name.length() - 1);
-            return new String[]{name.toString()};
+            return getSingleStringOutput(tokens);
         }
+    }
+
+    private static String[] processFindTokens(String[] tokens) throws AstraeaInputException {
+        if (tokens.length < 2) {
+            throw new AstraeaInputException("find_noName");
+        } else {
+            return getSingleStringOutput(tokens);
+        }
+    }
+
+    private static String[] getSingleStringOutput(String[] tokens) {
+        StringBuilder name = new StringBuilder();
+        for (int i = 1; i < tokens.length; i++) {
+            name.append(tokens[i]);
+            name.append(" ");
+        }
+        name.deleteCharAt(name.length() - 1);
+        return new String[] { name.toString() };
     }
 
     private static String[] processDeadlineTokens(String[] tokens) throws AstraeaInputException {
@@ -96,7 +110,7 @@ public class Parser {
             throw new AstraeaInputException("deadline_noTime");
         }
 
-        return new String[]{name.toString(), deadline.toString()};
+        return new String[]{ name.toString(), deadline.toString() };
     }
 
     private static String[] processEventTokens(String[] tokens) throws AstraeaInputException {
@@ -143,7 +157,7 @@ public class Parser {
             throw new AstraeaInputException("event_noEnd");
         }
 
-        return new String[]{name.toString(), start.toString(), end.toString()};
+        return new String[] { name.toString(), start.toString(), end.toString() };
     }
 
     private static boolean isNumeric(String str) {

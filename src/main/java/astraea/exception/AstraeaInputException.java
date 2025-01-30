@@ -49,6 +49,10 @@ public class AstraeaInputException extends Exception {
             "Give me just one number for the index of the task.",
             "Usage: unmark [index]"
         };
+        case "find_noName" -> new String[]{
+            "If you wanted to search for blankness I'd suggest looking in your head.",
+            "Usage: find [query]"
+        };
         case "empty" -> new String[]{
             "I can't do anything with nothing, you know."
         };
