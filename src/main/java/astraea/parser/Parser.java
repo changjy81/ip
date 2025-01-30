@@ -32,7 +32,7 @@ public class Parser {
     }
 
     private static String[] processSingleNumberToken(String[] tokens) throws AstraeaInputException {
-        if (isNumeric(tokens[1]) && tokens.length == 2) {
+        if (tokens.length == 2 && isNumeric(tokens[1])) {
             return new String[] { tokens[1] };
         } else {
             throw new AstraeaInputException(tokens[0]);
@@ -46,7 +46,9 @@ public class Parser {
             StringBuilder name = new StringBuilder();
             for (int i = 1; i < tokens.length; i++) {
                 name.append(tokens[i]);
+                name.append(" ");
             }
+            name.deleteCharAt(name.length() - 1);
             return new String[] { name.toString() };
         }
     }
@@ -108,12 +110,15 @@ public class Parser {
             }
         }
 
-        if (name.isEmpty())
+        if (name.isEmpty()) {
             throw new AstraeaInputException("event_noName");
-        if (start.isEmpty())
+        }
+        if (start.isEmpty()) {
             throw new AstraeaInputException("event_noStart");
-        if (end.isEmpty())
+        }
+        if (end.isEmpty()) {
             throw new AstraeaInputException("event_noEnd");
+        }
 
         return new String[] { name.toString(), start.toString(), end.toString() };
     }

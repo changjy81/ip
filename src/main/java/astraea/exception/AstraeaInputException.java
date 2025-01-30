@@ -50,4 +50,13 @@ public class AstraeaInputException extends Exception {
             };
         };
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof AstraeaInputException other) {
+            return this.type.equals(other.type);
+        } else {
+            return false;
+        }
+    }
 }

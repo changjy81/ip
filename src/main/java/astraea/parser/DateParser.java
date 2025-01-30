@@ -8,7 +8,7 @@ import java.time.format.DateTimeParseException;
 public class DateParser {
     public static boolean isLocalDate(String str) {
         try {
-            LocalDate.parse(str, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            LocalDate.parse(str, DateTimeFormatter.ofPattern("uuuu-MM-dd"));
             return true;
         } catch (DateTimeParseException e) {
             return false;
@@ -17,7 +17,7 @@ public class DateParser {
 
     public static boolean isLocalDateTime(String str) {
         try {
-            LocalDateTime.parse(str, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+            LocalDateTime.parse(str, DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm"));
             // System.out.println("detected datetime");
             return true;
         } catch (DateTimeParseException e) {
