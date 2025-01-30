@@ -1,10 +1,10 @@
 package astraea.task;
 
-import astraea.parser.DateParser;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+import astraea.parser.DateParser;
 
 /**
  * Represents a Deadline task.

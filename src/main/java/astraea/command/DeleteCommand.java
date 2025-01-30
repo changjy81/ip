@@ -1,11 +1,11 @@
 package astraea.command;
 
+import java.io.IOException;
+
 import astraea.storage.Storage;
 import astraea.task.Task;
 import astraea.task.TaskList;
 import astraea.ui.AstraeaUI;
-
-import java.io.IOException;
 
 /**
  * Represents a command to delete a Task.
@@ -30,9 +30,9 @@ public class DeleteCommand extends Command {
         try {
             Task task = list.remove(index - 1);
             String[] message = new String[]{
-                    "",
-                    "  " + task,
-                    "I'm tracking " + list.size() + " of your tasks now."
+                "",
+                "  " + task,
+                "I'm tracking " + list.size() + " of your tasks now."
             };
             if (task.isDone()) {
                 message[0] = "All done and dusted? Tidying that up then.";

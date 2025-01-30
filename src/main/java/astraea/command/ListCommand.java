@@ -1,10 +1,10 @@
 package astraea.command;
 
+import java.util.ArrayList;
+
 import astraea.storage.Storage;
 import astraea.task.TaskList;
 import astraea.ui.AstraeaUI;
-
-import java.util.ArrayList;
 
 /**
  * Represents a command to list all tasks from TaskList.

@@ -1,11 +1,11 @@
 package astraea.command;
 
-import astraea.task.Deadline;
-import astraea.ui.AstraeaUI;
+import java.io.IOException;
 
 import astraea.storage.Storage;
+import astraea.task.Deadline;
 import astraea.task.TaskList;
-import java.io.IOException;
+import astraea.ui.AstraeaUI;
 
 /**
  * Represents a command to create a Deadline task.
@@ -28,9 +28,9 @@ public class DeadlineCommand extends Command {
         Deadline task = Deadline.createDeadline(this.getArguments()[0], this.getArguments()[1]);
         list.add(task);
         String[] message = new String[]{
-                "Time's ticking on this deadline. Get to it soon.",
-                "  " + task,
-                "I'm tracking " + list.size() + " of your tasks now."
+            "Time's ticking on this deadline. Get to it soon.",
+            "  " + task,
+            "I'm tracking " + list.size() + " of your tasks now."
         };
         ui.printBoundedMessage(message);
 
@@ -38,8 +38,8 @@ public class DeadlineCommand extends Command {
             storage.saveNewLine(task);
         } catch (IOException exception) {
             message = new String[]{
-                    "Something went wrong with saving data.",
-                    exception.getMessage()
+                "Something went wrong with saving data.",
+                exception.getMessage()
             };
             ui.printBoundedMessage(message);
         }

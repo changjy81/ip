@@ -32,21 +32,21 @@ public class Parser {
         String[] tokens = input.split("\\s+");
         String command = tokens[0];
         return switch (command) {
-            case "list" -> new ListCommand(CommandType.LIST, null);
-            case "mark" -> new ToggleCommand(CommandType.MARK, processSingleNumberToken(tokens));
-            case "unmark" -> new ToggleCommand(CommandType.UNMARK, processSingleNumberToken(tokens));
-            case "todo" -> new TodoCommand(CommandType.TODO, processTodoTokens(tokens));
-            case "deadline" -> new DeadlineCommand(CommandType.DEADLINE, processDeadlineTokens(tokens));
-            case "event" -> new EventCommand(CommandType.EVENT, processEventTokens(tokens));
-            case "delete" -> new DeleteCommand(CommandType.DELETE, processSingleNumberToken(tokens));
-            case "bye" -> new ExitCommand(CommandType.EXIT, null);
-            default -> throw new AstraeaInputException("invalid");
+        case "list" -> new ListCommand(CommandType.LIST, null);
+        case "mark" -> new ToggleCommand(CommandType.MARK, processSingleNumberToken(tokens));
+        case "unmark" -> new ToggleCommand(CommandType.UNMARK, processSingleNumberToken(tokens));
+        case "todo" -> new TodoCommand(CommandType.TODO, processTodoTokens(tokens));
+        case "deadline" -> new DeadlineCommand(CommandType.DEADLINE, processDeadlineTokens(tokens));
+        case "event" -> new EventCommand(CommandType.EVENT, processEventTokens(tokens));
+        case "delete" -> new DeleteCommand(CommandType.DELETE, processSingleNumberToken(tokens));
+        case "bye" -> new ExitCommand(CommandType.EXIT, null);
+        default -> throw new AstraeaInputException("invalid");
         };
     }
 
     private static String[] processSingleNumberToken(String[] tokens) throws AstraeaInputException {
         if (tokens.length == 2 && isNumeric(tokens[1])) {
-            return new String[] { tokens[1] };
+            return new String[]{tokens[1]};
         } else {
             throw new AstraeaInputException(tokens[0]);
         }
@@ -62,7 +62,7 @@ public class Parser {
                 name.append(" ");
             }
             name.deleteCharAt(name.length() - 1);
-            return new String[] { name.toString() };
+            return new String[]{name.toString()};
         }
     }
 
@@ -77,10 +77,14 @@ public class Parser {
                 continue;
             }
             if (deadlineFlag) {
-                if (!deadline.isEmpty()) deadline.append(" ");
+                if (!deadline.isEmpty()) {
+                    deadline.append(" ");
+                }
                 deadline.append(tokens[i]);
             } else {
-                if (!name.isEmpty()) name.append(" ");
+                if (!name.isEmpty()) {
+                    name.append(" ");
+                }
                 name.append(tokens[i]);
             }
         }
@@ -92,7 +96,7 @@ public class Parser {
             throw new AstraeaInputException("deadline_noTime");
         }
 
-        return new String[] { name.toString(), deadline.toString() };
+        return new String[]{name.toString(), deadline.toString()};
     }
 
     private static String[] processEventTokens(String[] tokens) throws AstraeaInputException {
@@ -112,13 +116,19 @@ public class Parser {
                 continue;
             }
             if (divider == 2) {
-                if (!end.isEmpty()) end.append(" ");
+                if (!end.isEmpty()) {
+                    end.append(" ");
+                }
                 end.append(input);
             } else if (divider == 1) {
-                if (!start.isEmpty()) start.append(" ");
+                if (!start.isEmpty()) {
+                    start.append(" ");
+                }
                 start.append(input);
             } else {
-                if (!name.isEmpty()) name.append(" ");
+                if (!name.isEmpty()) {
+                    name.append(" ");
+                }
                 name.append(input);
             }
         }
@@ -133,7 +143,7 @@ public class Parser {
             throw new AstraeaInputException("event_noEnd");
         }
 
-        return new String[] { name.toString(), start.toString(), end.toString() };
+        return new String[]{name.toString(), start.toString(), end.toString()};
     }
 
     private static boolean isNumeric(String str) {

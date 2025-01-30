@@ -3,7 +3,7 @@ package astraea.ui;
 import java.util.Scanner;
 
 public class AstraeaUI {
-    static String separator = "\t____________________________________________________________";
+    private static final String separator = "\t____________________________________________________________";
     private final Scanner scan = new Scanner(System.in);
 
     public String readInput() {

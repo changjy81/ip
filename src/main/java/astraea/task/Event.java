@@ -1,13 +1,12 @@
 package astraea.task;
 
-import astraea.parser.DateParser;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import astraea.parser.DateParser;
+
 /**
- *
  * Represents an Event task.
  * May store the start and end time as a LocalDate or LocalDateTime instead of a String, but only if both
  * are given in the format of yyyy-MM-dd or yyyy-MM-dd HH:mm.

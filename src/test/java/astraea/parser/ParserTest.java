@@ -1,11 +1,20 @@
 package astraea.parser;
 
-import astraea.command.*;
-import astraea.exception.AstraeaInputException;
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
+
+import org.junit.jupiter.api.Test;
+
+import astraea.command.Command;
+import astraea.command.CommandType;
+import astraea.command.DeadlineCommand;
+import astraea.command.DeleteCommand;
+import astraea.command.EventCommand;
+import astraea.command.ExitCommand;
+import astraea.command.ListCommand;
+import astraea.command.TodoCommand;
+import astraea.command.ToggleCommand;
+import astraea.exception.AstraeaInputException;
 
 public class ParserTest {
     @Test

@@ -1,16 +1,11 @@
 package astraea.command;
 
+import java.util.Arrays;
+
 import astraea.storage.Storage;
 import astraea.task.TaskList;
 import astraea.ui.AstraeaUI;
 
-import java.util.Arrays;
-
-/**
- * Represents an action requested by the user.
- * This class should never be instantiated and serves only as a base for differentiated Command subclasses.
- * String[] args should contain the arguments associated with the Command, split as appropriate.
- */
 public class Command {
     private final CommandType commandType;
     private final String[] args;
