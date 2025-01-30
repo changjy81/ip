@@ -6,6 +6,11 @@ import astraea.ui.AstraeaUI;
 
 import java.util.Arrays;
 
+/**
+ * Represents an action requested by the user.
+ * This class should never be instantiated and serves only as a base for differentiated Command subclasses.
+ * String[] args should contain the arguments associated with the Command, split as appropriate.
+ */
 public class Command {
     private final CommandType commandType;
     private final String[] args;
@@ -15,18 +20,37 @@ public class Command {
         this.args = args;
     }
 
+    /**
+     * Returns CommandType associated with this Command.
+     * @return CommandType of this Command.
+     */
     public CommandType getCommandType() {
         return commandType;
     }
 
+    /**
+     * Returns arguments associated with this Command.
+     * @return String[] containing stored arguments.
+     */
     public String[] getArguments() {
         return args;
     }
 
+    /**
+     * Shell function for command execution. Does nothing in the base Command class.
+     * @param list TaskList object to access and/or modify.
+     * @param storage Storage object to read/write data files.
+     * @param ui AstraeaUI object to print to console.
+     */
     public void execute(TaskList list, Storage storage, AstraeaUI ui) {
         // do nothing
     }
 
+    /**
+     * Implementation of equals method to compare Command objects by stored data instead of object ID.
+     * @param o Object to compare against.
+     * @return Boolean value representing whether the object is equal to this.
+     */
     @Override
     public boolean equals(Object o) {
         if (o instanceof Command command) {

@@ -11,7 +11,20 @@ import astraea.command.TodoCommand;
 import astraea.command.ToggleCommand;
 import astraea.exception.AstraeaInputException;
 
+/**
+ * Class containing static methods associated with parsing user input into Commands.
+ */
 public class Parser {
+    /**
+     * Attempts to parse the user input String into the appropriate Command.
+     * This is done by splitting the Command by whitespaces and reading the first word.
+     * If necessary, all subsequent words are then processed and packaged into a String array representing
+     * the arguments associated with the Command.
+     * @param input String containing the entire line of input from the user.
+     * @return Command representing the action requested by user input.
+     * @throws AstraeaInputException Thrown if the input is invalid, with different types based on the nature
+     * of the invalid input.
+     */
     public static Command parseInput(String input) throws AstraeaInputException {
         if (input.isEmpty()) {
             throw new AstraeaInputException("empty");

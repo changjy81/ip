@@ -1,5 +1,9 @@
 package astraea.exception;
 
+/**
+ * Represents an Exception relating to invalid user inputs.
+ * String type should detail the context of the invalid input.
+ */
 public class AstraeaInputException extends Exception {
     private final String type;
 
@@ -7,6 +11,10 @@ public class AstraeaInputException extends Exception {
         this.type = type;
     }
 
+    /**
+     * Returns the error message to be printed to UI associated with this exception.
+     * @return String array of error messages.
+     */
     public String[] getErrorMessage() {
         return switch (type) {
             case "todo_noName" -> new String[]{
@@ -51,6 +59,11 @@ public class AstraeaInputException extends Exception {
         };
     }
 
+    /**
+     * Implementation of equals method to compare AstraeaInputException objects by type.
+     * @param obj Object to compare against.
+     * @return Boolean value representing whether the object is equal to this.
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof AstraeaInputException other) {
