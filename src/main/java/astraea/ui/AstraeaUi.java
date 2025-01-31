@@ -5,7 +5,7 @@ import java.util.Scanner;
 /**
  * UI interaction class for printing to console.
  */
-public class AstraeaUI {
+public class AstraeaUi {
     private static final String SEPARATOR = "\t____________________________________________________________";
     private final Scanner scan = new Scanner(System.in);
 

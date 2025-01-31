@@ -5,7 +5,7 @@ import java.io.IOException;
 import astraea.storage.Storage;
 import astraea.task.Event;
 import astraea.task.TaskList;
-import astraea.ui.AstraeaUI;
+import astraea.ui.AstraeaUi;
 
 /**
  * Represents a command to create an Event task.
@@ -23,10 +23,10 @@ public class EventCommand extends Command {
      *
      * @param list TaskList object to access and/or modify.
      * @param storage Storage object to read/write data files.
-     * @param ui AstraeaUI object to print to console.
+     * @param ui AstraeaUi object to print to console.
      */
     @Override
-    public void execute(TaskList list, Storage storage, AstraeaUI ui) {
+    public void execute(TaskList list, Storage storage, AstraeaUi ui) {
         Event task = Event.createEvent(this.getArguments()[0], this.getArguments()[1], this.getArguments()[2]);
         list.add(task);
         String[] message = new String[]{

@@ -6,16 +6,16 @@ import astraea.exception.AstraeaInputException;
 import astraea.parser.Parser;
 import astraea.storage.Storage;
 import astraea.task.TaskList;
-import astraea.ui.AstraeaUI;
+import astraea.ui.AstraeaUi;
 
 public class Astraea {
-    private final AstraeaUI ui;
+    private final AstraeaUi ui;
     private final Storage storage;
     private final TaskList taskList;
     private boolean isExit = false;
 
     private Astraea() {
-        this.ui = new AstraeaUI();
+        this.ui = new AstraeaUi();
         this.storage = new Storage();
         this.taskList = new TaskList();
     }

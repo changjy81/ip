@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 import astraea.storage.Storage;
 import astraea.task.TaskList;
-import astraea.ui.AstraeaUI;
+import astraea.ui.AstraeaUi;
 
 public class Command {
     private final CommandType commandType;
@@ -38,9 +38,9 @@ public class Command {
      *
      * @param list TaskList object to access and/or modify.
      * @param storage Storage object to read/write data files.
-     * @param ui AstraeaUI object to print to console.
+     * @param ui AstraeaUi object to print to console.
      */
-    public void execute(TaskList list, Storage storage, AstraeaUI ui) {
+    public void execute(TaskList list, Storage storage, AstraeaUi ui) {
         // do nothing
     }
 

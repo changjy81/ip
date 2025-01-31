@@ -5,7 +5,7 @@ import java.io.IOException;
 import astraea.storage.Storage;
 import astraea.task.Task;
 import astraea.task.TaskList;
-import astraea.ui.AstraeaUI;
+import astraea.ui.AstraeaUi;
 
 /**
  * Represents a command to delete a Task.
@@ -23,10 +23,10 @@ public class DeleteCommand extends Command {
      *
      * @param list TaskList object to access and/or modify.
      * @param storage Storage object to read/write data files.
-     * @param ui AstraeaUI object to print to console.
+     * @param ui AstraeaUi object to print to console.
      */
     @Override
-    public void execute(TaskList list, Storage storage, AstraeaUI ui) {
+    public void execute(TaskList list, Storage storage, AstraeaUi ui) {
         int index = Integer.parseInt(this.getArguments()[0]);
         try {
             Task task = list.remove(index - 1);

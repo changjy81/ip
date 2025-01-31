@@ -16,7 +16,7 @@ import astraea.task.Event;
 import astraea.task.Task;
 import astraea.task.TaskList;
 import astraea.task.Todo;
-import astraea.ui.AstraeaUI;
+import astraea.ui.AstraeaUi;
 
 
 /**
@@ -89,10 +89,10 @@ public class Storage {
      * Reads the tasks.txt file and reconstructs the saved TaskList.
      * Run on program initialization.
      *
-     * @param ui AstraeaUI object to print to console.
+     * @param ui AstraeaUi object to print to console.
      * @param list Empty TaskList object to populate.
      */
-    public void load(AstraeaUI ui, TaskList list) {
+    public void load(AstraeaUi ui, TaskList list) {
         try {
             Files.createDirectories(Paths.get("data"));
             File file = new File("data/tasks.txt");

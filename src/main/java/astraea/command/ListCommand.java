@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import astraea.storage.Storage;
 import astraea.task.TaskList;
-import astraea.ui.AstraeaUI;
+import astraea.ui.AstraeaUi;
 
 /**
  * Represents a command to list all tasks from TaskList.
@@ -20,10 +20,10 @@ public class ListCommand extends Command {
      *
      * @param list TaskList object to access and/or modify.
      * @param storage Storage object to read/write data files.
-     * @param ui AstraeaUI object to print to console.
+     * @param ui AstraeaUi object to print to console.
      */
     @Override
-    public void execute(TaskList list, Storage storage, AstraeaUI ui) {
+    public void execute(TaskList list, Storage storage, AstraeaUi ui) {
         if (list.isEmpty()) {
             ui.printBoundedMessage("You don't have any tasks on my records.");
             return;
