@@ -16,6 +16,7 @@ public class ExitCommand extends Command {
     /**
      * Prints the exit message to UI.
      * Actual termination of the program is handled in the Astraea class.
+     *
      * @param list TaskList object to access and/or modify.
      * @param storage Storage object to read/write data files.
      * @param ui AstraeaUI object to print to console.

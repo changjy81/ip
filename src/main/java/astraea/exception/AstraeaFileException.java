@@ -11,6 +11,11 @@ public class AstraeaFileException extends Exception {
         this.type = type;
     }
 
+    /**
+     * Returns the error message to be printed to UI associated with this exception.
+     *
+     * @return String array of error messages.
+     */
     public String[] getErrorMessage() {
         return switch (type) {
         default -> new String[]{

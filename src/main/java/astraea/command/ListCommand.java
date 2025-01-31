@@ -17,6 +17,7 @@ public class ListCommand extends Command {
 
     /**
      * Reads the given TaskList and prints all Tasks to UI.
+     *
      * @param list TaskList object to access and/or modify.
      * @param storage Storage object to read/write data files.
      * @param ui AstraeaUI object to print to console.

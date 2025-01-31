@@ -61,6 +61,7 @@ public class Storage {
 
     /**
      * Saves the current state of TaskList to the tasks.txt file.
+     *
      * @param list TaskList to read and save.
      * @throws IOException Thrown if an I/O exception occurs.
      */
@@ -74,6 +75,7 @@ public class Storage {
 
     /**
      * Appends the given Task to the tasks.txt file.
+     *
      * @param task Task to be saved.
      * @throws IOException Thrown if an I/O exception occurs.
      */
@@ -86,6 +88,7 @@ public class Storage {
     /**
      * Reads the tasks.txt file and reconstructs the saved TaskList.
      * Run on program initialization.
+     *
      * @param ui AstraeaUI object to print to console.
      * @param list Empty TaskList object to populate.
      */

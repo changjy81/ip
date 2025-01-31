@@ -18,6 +18,7 @@ public class FindCommand extends Command {
 
     /**
      * Runs the search on TaskList for Tasks containing the given search query.
+     *
      * @param list TaskList object to search through.
      * @param storage Not used in this method.
      * @param ui AstraeaUI object to print results to.

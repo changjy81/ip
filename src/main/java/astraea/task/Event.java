@@ -44,6 +44,7 @@ public class Event extends Task {
     /**
      * Returns the start time of this Event.
      * May return a formatted String if the deadline is stored as a LocalDate or LocalDateTime.
+     *
      * @return Start time of this task.
      */
     public String getStartTime() {
@@ -59,6 +60,7 @@ public class Event extends Task {
     /**
      * Returns the end time of this Event.
      * May return a formatted String if the deadline is stored as a LocalDate or LocalDateTime.
+     *
      * @return End time of this task.
      */
     public String getEndTime() {
@@ -73,6 +75,7 @@ public class Event extends Task {
 
     /**
      * Returns a formatted String to be used for saving this Event to file.
+     *
      * @return String formatted for saving to file.
      */
     @Override
@@ -83,6 +86,7 @@ public class Event extends Task {
 
     /**
      * Returns a formatted String to print the state of this Event to console.
+     *
      * @return String formatted for printing to console.
      */
     @Override
@@ -91,9 +95,10 @@ public class Event extends Task {
     }
 
     /**
-     * Factory method for creating Event objects.
+     * Creates Event object from given parameters.
      * Processes the start and end Strings to store as LocalDate or LocalDateTime if possible.
      * Both Strings must be in the specified formats to be stored as LocalDate or LocalDateTime.
+     *
      * @param name Name of Event.
      * @param start Start time of Event.
      * @param end End time of Event.

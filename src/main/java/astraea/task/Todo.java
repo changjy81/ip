@@ -10,6 +10,7 @@ public class Todo extends Task {
 
     /**
      * Returns a formatted String to be used for saving this Todo to file.
+     *
      * @return String formatted for saving to file.
      */
     @Override
@@ -19,6 +20,7 @@ public class Todo extends Task {
 
     /**
      * Returns a formatted String to print the state of this Todo to console.
+     *
      * @return String formatted for printing to console.
      */
     @Override

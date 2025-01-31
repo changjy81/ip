@@ -16,6 +16,7 @@ public class TaskList implements Iterable<Task> {
 
     /**
      * Adds the given Task to the end of this list.
+     *
      * @param task Task to be added to list.
      */
     public void add(Task task) {
@@ -24,6 +25,7 @@ public class TaskList implements Iterable<Task> {
 
     /**
      * Removes the Task corresponding to the given index from this list.
+     *
      * @param index Index of Task to be removed.
      * @return Task removed from list.
      */
@@ -33,6 +35,7 @@ public class TaskList implements Iterable<Task> {
 
     /**
      * Returns corresponding Task in this list at given index.
+     *
      * @param index Index of Task to retrieve.
      * @return Task at index in list.
      */
@@ -42,6 +45,7 @@ public class TaskList implements Iterable<Task> {
 
     /**
      * Returns the number of Tasks in this list.
+     *
      * @return Number of Tasks in list.
      */
     public int size() {
@@ -50,6 +54,7 @@ public class TaskList implements Iterable<Task> {
 
     /**
      * Returns <code>true</code> if list contains no Tasks.
+     *
      * @return <code>true</code> if list contains no Tasks.
      */
     public boolean isEmpty() {
@@ -58,6 +63,7 @@ public class TaskList implements Iterable<Task> {
 
     /**
      * Returns an iterator over the elements in this list in proper sequence.
+     *
      * @return an iterator over the elements in this list in proper sequence.
      */
     @Override

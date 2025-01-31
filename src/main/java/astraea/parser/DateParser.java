@@ -12,6 +12,7 @@ public class DateParser {
     /**
      * Checks if a String is in a suitable format for processing by attempting to parse given String as a
      * LocalDate in a specific format.
+     *
      * @param str String representing a date.
      * @return Boolean value of whether the String can be parsed.
      */
@@ -27,6 +28,7 @@ public class DateParser {
     /**
      * Checks if a String is in a suitable format for processing by attempting to parse given String as a
      * LocalDateTime in a specific format.
+     *
      * @param str String representing a datetime.
      * @return Boolean value of whether the String can be parsed.
      */

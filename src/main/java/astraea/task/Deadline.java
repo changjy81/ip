@@ -36,6 +36,7 @@ public class Deadline extends Task {
     /**
      * Returns the deadline of this Deadline task.
      * May return a formatted String if the deadline is stored as a LocalDate or LocalDateTime.
+     *
      * @return Deadline of this task.
      */
     public String getDeadline() {
@@ -50,6 +51,7 @@ public class Deadline extends Task {
 
     /**
      * Returns a formatted String to be used for saving this Deadline to file.
+     *
      * @return String formatted for saving to file.
      */
     @Override
@@ -59,6 +61,7 @@ public class Deadline extends Task {
 
     /**
      * Returns a formatted String to print the state of this Deadline to console.
+     *
      * @return String formatted for printing to console.
      */
     @Override
@@ -67,8 +70,9 @@ public class Deadline extends Task {
     }
 
     /**
-     * Factory method for creating Deadline objects.
+     * Creates Deadline object from given parameters.
      * Processes the deadline String to store as LocalDate or LocalDateTime if possible.
+     *
      * @param name Name of Deadline.
      * @param deadline Deadline time of Deadline.
      * @return Deadline object.

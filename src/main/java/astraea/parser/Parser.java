@@ -21,6 +21,7 @@ public class Parser {
      * This is done by splitting the Command by whitespaces and reading the first word.
      * If necessary, all subsequent words are then processed and packaged into a String array representing
      * the arguments associated with the Command.
+     *
      * @param input String containing the entire line of input from the user.
      * @return Command representing the action requested by user input.
      * @throws AstraeaInputException Thrown if the input is invalid, with different types based on the nature

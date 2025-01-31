@@ -19,6 +19,7 @@ public class ToggleCommand extends Command {
      * Parses the index String as Integer, then attempts to modify the Task from the given TaskList,
      * then saves the new state of TaskList to Storage and prints to UI.
      * If the index provided is out of bounds, aborts execution and prints an error message.
+     *
      * @param list TaskList object to access and/or modify.
      * @param storage Storage object to read/write data files.
      * @param ui AstraeaUI object to print to console.

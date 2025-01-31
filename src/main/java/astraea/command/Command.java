@@ -17,6 +17,7 @@ public class Command {
 
     /**
      * Returns CommandType associated with this Command.
+     *
      * @return CommandType of this Command.
      */
     public CommandType getCommandType() {
@@ -25,6 +26,7 @@ public class Command {
 
     /**
      * Returns arguments associated with this Command.
+     *
      * @return String[] containing stored arguments.
      */
     public String[] getArguments() {
@@ -33,6 +35,7 @@ public class Command {
 
     /**
      * Shell function for command execution. Does nothing in the base Command class.
+     *
      * @param list TaskList object to access and/or modify.
      * @param storage Storage object to read/write data files.
      * @param ui AstraeaUI object to print to console.
@@ -43,6 +46,7 @@ public class Command {
 
     /**
      * Implementation of equals method to compare Command objects by stored data instead of object ID.
+     *
      * @param o Object to compare against.
      * @return Boolean value representing whether the object is equal to this.
      */

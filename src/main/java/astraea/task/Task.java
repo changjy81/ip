@@ -28,6 +28,7 @@ public class Task {
 
     /**
      * Returns the name of this Task.
+     *
      * @return Name of Task.
      */
     public String getTaskName() {
@@ -36,6 +37,7 @@ public class Task {
 
     /**
      * Returns whether this Task is done.
+     *
      * @return Boolean of whether this Task is done.
      */
     public boolean isDone() {
@@ -44,6 +46,7 @@ public class Task {
 
     /**
      * Returns a formatted String representing the done status of this Task.
+     *
      * @return String in format of [X] or [ ] based on done status.
      */
     public String printDone() {
@@ -52,6 +55,7 @@ public class Task {
 
     /**
      * Returns a formatted String to be used for saving this Task to file.
+     *
      * @return String formatted for saving to file.
      */
     public String getSaveStyle() {
@@ -60,6 +64,7 @@ public class Task {
 
     /**
      * Returns a formatted String to print the state of this Task to console.
+     *
      * @return String formatted for printing to console.
      */
     @Override

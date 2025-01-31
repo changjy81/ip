@@ -13,6 +13,7 @@ public class AstraeaInputException extends Exception {
 
     /**
      * Returns the error message to be printed to UI associated with this exception.
+     *
      * @return String array of error messages.
      */
     public String[] getErrorMessage() {
@@ -65,6 +66,7 @@ public class AstraeaInputException extends Exception {
 
     /**
      * Implementation of equals method to compare AstraeaInputException objects by type.
+     *
      * @param obj Object to compare against.
      * @return Boolean value representing whether the object is equal to this.
      */
