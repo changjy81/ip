@@ -25,7 +25,7 @@ public class ToggleCommand extends Command {
      * @param ui AstraeaUi object to print to console.
      */
     @Override
-    public void execute(TaskList list, Storage storage, AstraeaUi ui) {
+    public String[] execute(TaskList list, Storage storage, AstraeaUi ui) {
         int index = Integer.parseInt(this.getArguments()[0]);
         try {
             String[] message;
@@ -46,10 +46,13 @@ public class ToggleCommand extends Command {
             }
             ui.printBoundedMessage(message);
             storage.save(list);
+            return message;
         } catch (IndexOutOfBoundsException e) {
             ui.printBoundedMessage("The index you gave me is out of bounds. Try checking list.");
+            return new String[]{"The index you gave me is out of bounds. Try checking list."};
         } catch (IOException exception) {
             ui.printBoundedMessage("Something went wrong with saving data.");
+            return new String[]{"Something went wrong with saving data."};
         }
     }
 

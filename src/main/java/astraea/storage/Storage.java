@@ -92,23 +92,29 @@ public class Storage {
      * @param ui AstraeaUi object to print to console.
      * @param list Empty TaskList object to populate.
      */
-    public void load(AstraeaUi ui, TaskList list) {
+    public String[] load(AstraeaUi ui, TaskList list) {
         try {
             Files.createDirectories(Paths.get("data"));
             File file = new File("data/tasks.txt");
+            String[] message;
             if (file.createNewFile()) {
                 // no task save data found, created new file
                 ui.printBottomBoundedMessage("I have no data recorded. New storage file created.");
+                message = new String[]{"I have no data recorded. New storage file created"};
             } else {
                 // read existing save data
                 read(list);
                 ui.printBottomBoundedMessage("I've retrieved your tasks from last time.");
+                message = new String[]{"I've retrieved your tasks from last time."};
             }
+            return message;
         } catch (IOException e) {
             ui.printBoundedMessage(e.getMessage());
+            return new String[]{e.getMessage()};
         } catch (AstraeaFileException ae) {
             // invalid/corrupted data
             // TODO copy bad data into new file, reset to blank
+            return new String[]{"I ran into a file exception."};
         }
     }
 }

@@ -24,7 +24,7 @@ public class FindCommand extends Command {
      * @param ui AstraeaUi object to print results to.
      */
     @Override
-    public void execute(TaskList list, Storage storage, AstraeaUi ui) {
+    public String[] execute(TaskList list, Storage storage, AstraeaUi ui) {
         ArrayList<Task> foundList = new ArrayList<Task>();
         for (Task task : list) {
             if (task.getTaskName().contains(this.getArguments()[0])) {
@@ -43,5 +43,6 @@ public class FindCommand extends Command {
             }
         }
         ui.printBoundedMessage(message);
+        return message;
     }
 }
