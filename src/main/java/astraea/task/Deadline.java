@@ -16,17 +16,35 @@ public class Deadline extends Task {
     private LocalDate deadlineDate;
     private LocalDateTime deadlineDateTime;
 
+    /**
+     * Constructs a Deadline task with the specified name and deadline time as a String.
+     *
+     * @param name Name of Deadline task.
+     * @param deadline String representation of deadline time of Deadline task.
+     */
     public Deadline(String name, String deadline) {
         super(name);
         this.deadline = deadline;
     }
 
+    /**
+     * Constructs a Deadline task with the specified name and deadline time as a LocalDate.
+     *
+     * @param name Name of Deadline task.
+     * @param deadlineDate LocalDate representation of deadline time of Deadline task.
+     */
     public Deadline(String name, LocalDate deadlineDate) {
         super(name);
         this.deadlineDate = deadlineDate;
         this.deadline = deadlineDate.format(DateTimeFormatter.ofPattern("uuuu-MM-dd"));
     }
 
+    /**
+     * Constructs a Deadline task with the specified name and deadline time as a LocalDateTime.
+     *
+     * @param name Name of Deadline task.
+     * @param deadlineDateTime LocalDateTime representation of deadline time of Deadline task.
+     */
     public Deadline(String name, LocalDateTime deadlineDateTime) {
         super(name);
         this.deadlineDateTime = deadlineDateTime;

@@ -19,12 +19,26 @@ public class Event extends Task {
     private LocalDateTime endDateTime;
     private LocalDate endDate;
 
+    /**
+     * Constructs an Event task with the specified name and start/end time as Strings.
+     *
+     * @param name Name of Event task.
+     * @param startTime String representation of start time of Event task.
+     * @param endTime String representation of end time of Event task.
+     */
     public Event(String name, String startTime, String endTime) {
         super(name);
         this.startTime = startTime;
         this.endTime = endTime;
     }
 
+    /**
+     * Constructs an Event task with the specified name and start/end time as LocalDates.
+     *
+     * @param name Name of Event task.
+     * @param startDate LocalDate representation of start time of Event task.
+     * @param endDate LocalDate representation of end time of Event task.
+     */
     public Event(String name, LocalDate startDate, LocalDate endDate) {
         super(name);
         this.startDate = startDate;
@@ -33,6 +47,13 @@ public class Event extends Task {
         this.endTime = endDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
     }
 
+    /**
+     * Constructs an Event task with the specified name and start/end time as LocalDateTimes.
+     *
+     * @param name Name of Event task.
+     * @param startDateTime LocalDateTime representation of start time of Event task.
+     * @param endDateTime LocalDateTime representation of end time of Event task.
+     */
     public Event(String name, LocalDateTime startDateTime, LocalDateTime endDateTime) {
         super(name);
         this.startDateTime = startDateTime;

@@ -4,7 +4,7 @@ package astraea.task;
  * Represents a task to be stored by Astraea.
  * This class should never be instantiated and serves only as a base for differentiated Task subclasses.
  */
-public class Task {
+public abstract class Task {
     private final String taskName;
     private boolean isDone = false;
 

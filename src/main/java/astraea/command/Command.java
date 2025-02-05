@@ -6,10 +6,20 @@ import astraea.storage.Storage;
 import astraea.task.TaskList;
 import astraea.ui.AstraeaUi;
 
-public class Command {
+/**
+ * Represents a user command to be executed.
+ * This class should never be instantiated and serves only as a base for differentiated Command subclasses.
+ */
+public abstract class Command {
     private final CommandType commandType;
     private final String[] args;
 
+    /**
+     * Constructs a Command with the specified command type and set of arguments.
+     *
+     * @param commandType Type of command.
+     * @param args Arguments associated with command.
+     */
     public Command(CommandType commandType, String[] args) {
         this.commandType = commandType;
         this.args = args;
