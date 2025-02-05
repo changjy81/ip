@@ -1,6 +1,8 @@
 package astraea.command;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import astraea.storage.Storage;
 import astraea.task.TaskList;
@@ -25,7 +27,7 @@ public class TodoCommand extends Command {
      * @param ui AstraeaUi object to print to console.
      */
     @Override
-    public void execute(TaskList list, Storage storage, AstraeaUi ui) {
+    public String[] execute(TaskList list, Storage storage, AstraeaUi ui) {
         Todo task = new Todo(this.getArguments()[0]);
         list.add(task);
         String[] message = new String[]{
@@ -33,16 +35,15 @@ public class TodoCommand extends Command {
             "  " + task,
             "I'm tracking " + list.size() + " of your tasks now."
         };
-        ui.printBoundedMessage(message);
-
         try {
             storage.saveNewLine(task);
         } catch (IOException exception) {
-            message = new String[]{
-                "Something went wrong with saving data.",
-                exception.getMessage()
-            };
-            ui.printBoundedMessage(message);
+            ArrayList<String> newMessage = new ArrayList<String>(Arrays.asList(message));
+            newMessage.add("Something went wrong with saving data.");
+            newMessage.add(exception.getMessage());
+            message = newMessage.toArray(new String[0]);
         }
+        ui.printBoundedMessage(message);
+        return message;
     }
 }

@@ -22,7 +22,7 @@ public class ExitCommand extends Command {
      * @param ui AstraeaUi object to print to console.
      */
     @Override
-    public void execute(TaskList list, Storage storage, AstraeaUi ui) {
-        ui.exit();
+    public String[] execute(TaskList list, Storage storage, AstraeaUi ui) {
+        return ui.exit();
     }
 }

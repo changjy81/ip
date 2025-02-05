@@ -50,8 +50,8 @@ public abstract class Command {
      * @param storage Storage object to read/write data files.
      * @param ui AstraeaUi object to print to console.
      */
-    public void execute(TaskList list, Storage storage, AstraeaUi ui) {
-        // do nothing
+    public String[] execute(TaskList list, Storage storage, AstraeaUi ui) {
+        return new String[]{}; // do nothing
     }
 
     /**

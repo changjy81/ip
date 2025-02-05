@@ -3,7 +3,7 @@ package astraea.ui;
 import java.util.Scanner;
 
 /**
- * UI interaction class for printing to console.
+ * UI interaction class for intro, exit and printing to console.
  */
 public class AstraeaUi {
     private static final String SEPARATOR = "\t____________________________________________________________";
@@ -13,12 +13,20 @@ public class AstraeaUi {
         return scan.nextLine();
     }
 
-    public void intro() {
-        printBoundedMessage("astraea.Astraea here. What do you want?");
+    /**
+     * Returns the intro statement.
+     */
+    public String[] intro() {
+        printBoundedMessage("Astraea here. What do you want?");
+        return new String[]{"Astraea here. What do you want?"};
     }
 
-    public void exit() {
+    /**
+     * Returns the exit statement.
+     */
+    public String[] exit() {
         printBoundedMessage("Well. Be on your way, then.");
+        return new String[]{"Well. Be on your way, then."};
     }
 
     /**

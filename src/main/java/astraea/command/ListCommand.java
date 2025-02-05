@@ -23,10 +23,10 @@ public class ListCommand extends Command {
      * @param ui AstraeaUi object to print to console.
      */
     @Override
-    public void execute(TaskList list, Storage storage, AstraeaUi ui) {
+    public String[] execute(TaskList list, Storage storage, AstraeaUi ui) {
         if (list.isEmpty()) {
             ui.printBoundedMessage("You don't have any tasks on my records.");
-            return;
+            return new String[]{"You don't have any tasks on my records."};
         }
 
         ArrayList<String> message = new ArrayList<String>();
@@ -35,5 +35,6 @@ public class ListCommand extends Command {
             message.add(" " + (i + 1) + "." + list.get(i));
         }
         ui.printBoundedMessage(message.toArray(new String[0]));
+        return message.toArray(new String[0]);
     }
 }
