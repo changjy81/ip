@@ -8,6 +8,9 @@ import astraea.storage.Storage;
 import astraea.task.TaskList;
 import astraea.ui.AstraeaUi;
 
+/**
+ * Main class of Astraea.
+ */
 public class Astraea {
     private final AstraeaUi ui;
     private final Storage storage;
