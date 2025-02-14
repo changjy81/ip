@@ -11,8 +11,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
+import astraea.command.Alias;
 import astraea.exception.AstraeaFileException;
 import astraea.task.Deadline;
 import astraea.task.Event;
@@ -26,17 +28,10 @@ import astraea.task.Todo;
  */
 public class Storage {
     private static final String TASKS_FILEPATH = "data/tasks.txt";
+    private static final String ALIAS_FILEPATH = "data/aliases.txt";
 
     private void read(TaskList list) throws IOException, AstraeaFileException {
-        BufferedReader br = new BufferedReader(new FileReader(TASKS_FILEPATH));
-        String line;
-        ArrayList<String> inputs = new ArrayList<>();
-        while ((line = br.readLine()) != null) {
-            if (line.isBlank()) {
-                break;
-            }
-            inputs.add(line);
-        }
+        ArrayList<String> inputs = readFile(TASKS_FILEPATH);
         Function<String, Task> makeTask = input -> {
             try {
                 return createTask(input.split("(\\s\\|\\s)"));
@@ -49,20 +44,28 @@ public class Storage {
 
     private Task createTask(String[] input) throws AstraeaFileException {
         String type = input[0];
-        String name = input[1];
+        String name = input[2];
+        Task task;
         switch (type) {
         case "T":
-            return new Todo(name);
+            task = new Todo(name);
+            break;
         case "D":
             String deadline = input[3];
-            return Deadline.createDeadline(name, deadline);
+            task = Deadline.createDeadline(name, deadline);
+            break;
         case "E":
             String start = input[3];
             String end = input[4];
-            return Event.createEvent(name, start, end);
+            task = Event.createEvent(name, start, end);
+            break;
         default:
             throw new AstraeaFileException("badFileRead");
         }
+        if (input[1].equals("1")) {
+            task.setDone();
+        }
+        return task;
     }
 
     /**
@@ -95,6 +98,7 @@ public class Storage {
 
     /**
      * Reads the tasks.txt file and reconstructs the saved TaskList.
+     * Also reads aliases.txt to reconstruct aliases.
      * Run on program initialization.
      *
      * @param list Empty TaskList object to populate.
@@ -105,16 +109,24 @@ public class Storage {
         try {
             Files.createDirectories(Paths.get("data"));
             File file = new File(TASKS_FILEPATH);
-            String[] message;
+            StringBuilder message = new StringBuilder();
             if (file.createNewFile()) {
                 // no task save data found, created new file
-                message = new String[]{"I have no data recorded. New storage file created"};
+                message.append("I have no data recorded. New storage file created.");
             } else {
                 // read existing save data and repopulate list
                 read(list);
-                message = new String[]{"I've retrieved your tasks from last time."};
+                message.append("I've retrieved your tasks from last time.");
             }
-            return message;
+
+            file = new File(ALIAS_FILEPATH);
+            if (file.createNewFile()) {
+                message.append("\nI have no aliases recorded. New storage file created.");
+            } else {
+                readAliases();
+                message.append("\nI've also retrieved your aliases from last time.");
+            }
+            return message.toString().split("\n");
         } catch (IOException e) {
             return new String[]{e.getMessage()};
         } catch (AstraeaFileException ae) {
@@ -141,5 +153,55 @@ public class Storage {
             message = newMessage.toArray(new String[0]);
         }
         return message;
+    }
+
+    /**
+     * Appends the given Task to the aliases.txt file.
+     *
+     * @param alias Alias to be saved.
+     * @param command Command type associated with the alias.
+     * @throws IOException Thrown if an I/O exception occurs.
+     */
+    public void saveNewAlias(String alias, String command) throws IOException {
+        assert alias != null : "Null alias being saved";
+        PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(ALIAS_FILEPATH, true)));
+        pw.println(alias + " | " + command);
+        pw.close();
+    }
+
+    /**
+     * Saves the current aliases to the aliases.txt file.
+     *
+     * @throws IOException Thrown if an I/O exception occurs.
+     */
+    public void saveAlias() throws IOException {
+        ArrayList<String[]> style = Alias.getSaveStyle();
+        PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(ALIAS_FILEPATH)));
+        for (String[] line : style) {
+            pw.println(line[0] + " | " + line[1]);
+        }
+        pw.close();
+    }
+
+    private void readAliases() throws IOException {
+        ArrayList<String> inputs = readFile(ALIAS_FILEPATH);
+        Consumer<String> remakeAliases = input -> {
+            String[] tokens = input.split("(\\s\\|\\s)");
+            Alias.addAlias(tokens[0], tokens[1]);
+        };
+        inputs.forEach(remakeAliases);
+    }
+
+    private ArrayList<String> readFile(String filePath) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(filePath));
+        String line;
+        ArrayList<String> inputs = new ArrayList<>();
+        while ((line = br.readLine()) != null) {
+            if (line.isBlank()) {
+                break;
+            }
+            inputs.add(line);
+        }
+        return inputs;
     }
 }

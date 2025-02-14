@@ -1,5 +1,7 @@
 package astraea.parser;
 
+import astraea.command.AddAliasCommand;
+import astraea.command.Alias;
 import astraea.command.Command;
 import astraea.command.CommandType;
 import astraea.command.DeadlineCommand;
@@ -8,6 +10,7 @@ import astraea.command.EventCommand;
 import astraea.command.ExitCommand;
 import astraea.command.FindCommand;
 import astraea.command.ListCommand;
+import astraea.command.RemoveAliasCommand;
 import astraea.command.TodoCommand;
 import astraea.command.ToggleCommand;
 import astraea.exception.AstraeaInputException;
@@ -32,7 +35,7 @@ public class Parser {
             throw new AstraeaInputException("empty");
         }
         String[] tokens = input.split("\\s+");
-        String command = tokens[0];
+        String command = checkAlias(tokens[0]);
         return switch (command) {
         case "list" -> new ListCommand(CommandType.LIST, null);
         case "mark" -> new ToggleCommand(CommandType.MARK, processSingleNumberToken(tokens));
@@ -42,9 +45,15 @@ public class Parser {
         case "event" -> new EventCommand(CommandType.EVENT, processEventTokens(tokens));
         case "delete" -> new DeleteCommand(CommandType.DELETE, processSingleNumberToken(tokens));
         case "find" -> new FindCommand(CommandType.FIND, processFindTokens(tokens));
+        case "add_alias" -> new AddAliasCommand(CommandType.ADD_ALIAS, processAddAliasTokens(tokens));
+        case "remove_alias" -> new RemoveAliasCommand(CommandType.REMOVE_ALIAS, processRemoveAliasTokens(tokens));
         case "bye" -> new ExitCommand(CommandType.EXIT, null);
         default -> throw new AstraeaInputException("invalid");
         };
+    }
+
+    private static String checkAlias(String input) {
+        return Alias.findCommandOfAlias(input);
     }
 
     private static String[] processSingleNumberToken(String[] tokens) throws AstraeaInputException {
@@ -159,6 +168,26 @@ public class Parser {
         }
 
         return new String[] { name.toString(), start.toString(), end.toString() };
+    }
+
+    private static String[] processAddAliasTokens(String[] tokens) throws AstraeaInputException {
+        if (tokens.length != 3) {
+            throw new AstraeaInputException("add_alias_wrongUsage");
+        } else if (!Alias.checkCommand(tokens[1])) {
+            throw new AstraeaInputException("add_alias_invalidCommand");
+        } else if (Alias.checkCommand(tokens[2])) {
+            throw new AstraeaInputException("add_alias_existingName");
+        }
+        return new String[] { tokens[1], tokens[2] };
+    }
+
+    private static String[] processRemoveAliasTokens(String[] tokens) throws AstraeaInputException {
+        if (tokens.length != 2) {
+            throw new AstraeaInputException("remove_alias_wrongUsage");
+        } else if (!Alias.checkAlias(tokens[1])) {
+            throw new AstraeaInputException("remove_alias_wrongUsage");
+        }
+        return new String[] { tokens[1] };
     }
 
     private static boolean isNumeric(String str) {
