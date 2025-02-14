@@ -71,6 +71,7 @@ public class Storage {
      * @throws IOException Thrown if an I/O exception occurs.
      */
     public void save(TaskList list) throws IOException {
+        assert list != null : "Null list being saved";
         PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("data/tasks.txt")));
         for (Task task : list) {
             pw.println(task.getSaveStyle());
@@ -85,6 +86,7 @@ public class Storage {
      * @throws IOException Thrown if an I/O exception occurs.
      */
     public void saveNewLine(Task task) throws IOException {
+        assert task != null : "Null task being saved";
         PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("data/tasks.txt", true)));
         pw.println(task.getSaveStyle());
         pw.close();
@@ -98,6 +100,8 @@ public class Storage {
      * @param list Empty TaskList object to populate.
      */
     public String[] load(AstraeaUi ui, TaskList list) {
+        assert ui != null : "Null UI object";
+        assert list != null : "Null TaskList object";
         try {
             Files.createDirectories(Paths.get("data"));
             File file = new File("data/tasks.txt");
