@@ -28,35 +28,41 @@ public class Storage {
     private void read(TaskList list) throws IOException, AstraeaFileException {
         BufferedReader br = new BufferedReader(new FileReader("data/tasks.txt"));
         String line;
-        Task task;
         while ((line = br.readLine()) != null) {
-            if (line.isBlank()) {
-                break;
-            }
-            String[] info = line.split("(\\s\\|\\s)");
-            String type = info[0];
-            boolean isDone = info[1].equals("1");
-            String name = info[2];
-            switch (type) {
-            case "T":
-                task = new Todo(name);
-                break;
-            case "D":
-                String deadline = info[3];
-                task = Deadline.createDeadline(name, deadline);
-                break;
-            case "E":
-                String start = info[3];
-                String end = info[4];
-                task = Event.createEvent(name, start, end);
-                break;
-            default:
-                throw new AstraeaFileException("badFileRead");
-            }
-            list.add(task);
-            if (isDone) {
-                task.setDone();
-            }
+            this.parseLine(line, list);
+        }
+    }
+
+    private void parseLine(String line, TaskList list) throws AstraeaFileException {
+        Task task;
+        if (line.isBlank()) {
+            return;
+        }
+
+        String[] info = line.split("(\\s\\|\\s)");
+        String type = info[0];
+        String name = info[2];
+        switch (type) {
+        case "T":
+            task = new Todo(name);
+            break;
+        case "D":
+            String deadline = info[3];
+            task = Deadline.createDeadline(name, deadline);
+            break;
+        case "E":
+            String start = info[3];
+            String end = info[4];
+            task = Event.createEvent(name, start, end);
+            break;
+        default:
+            throw new AstraeaFileException("badFileRead");
+        }
+        list.add(task);
+
+        boolean isDone = info[1].equals("1");
+        if (isDone) {
+            task.setDone();
         }
     }
 
@@ -102,7 +108,7 @@ public class Storage {
                 // no task save data found, created new file
                 message = new String[]{"I have no data recorded. New storage file created"};
             } else {
-                // read existing save data
+                // read existing save data and repopulate list
                 read(list);
                 message = new String[]{"I've retrieved your tasks from last time."};
             }
