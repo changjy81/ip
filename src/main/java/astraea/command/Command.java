@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 import astraea.storage.Storage;
 import astraea.task.TaskList;
-import astraea.ui.AstraeaUi;
 
 /**
  * Represents a user command to be executed.
@@ -48,9 +47,9 @@ public abstract class Command {
      *
      * @param list TaskList object to access and/or modify.
      * @param storage Storage object to read/write data files.
-     * @param ui AstraeaUi object to print to console.
+     * @return Messages containing results to be printed as Astraea.
      */
-    public String[] execute(TaskList list, Storage storage, AstraeaUi ui) {
+    public String[] execute(TaskList list, Storage storage) {
         return new String[]{}; // do nothing
     }
 
