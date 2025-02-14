@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.function.Function;
 
 import astraea.exception.AstraeaFileException;
@@ -18,16 +19,16 @@ import astraea.task.Event;
 import astraea.task.Task;
 import astraea.task.TaskList;
 import astraea.task.Todo;
-import astraea.ui.AstraeaUi;
 
 
 /**
  * Represents the object used to read from and write to files.
  */
 public class Storage {
+    private static final String TASKS_FILEPATH = "data/tasks.txt";
 
     private void read(TaskList list) throws IOException, AstraeaFileException {
-        BufferedReader br = new BufferedReader(new FileReader("data/tasks.txt"));
+        BufferedReader br = new BufferedReader(new FileReader(TASKS_FILEPATH));
         String line;
         ArrayList<String> inputs = new ArrayList<>();
         while ((line = br.readLine()) != null) {
@@ -72,7 +73,7 @@ public class Storage {
      */
     public void save(TaskList list) throws IOException {
         assert list != null : "Null list being saved";
-        PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("data/tasks.txt")));
+        PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(TASKS_FILEPATH)));
         for (Task task : list) {
             pw.println(task.getSaveStyle());
         }
@@ -87,7 +88,7 @@ public class Storage {
      */
     public void saveNewLine(Task task) throws IOException {
         assert task != null : "Null task being saved";
-        PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("data/tasks.txt", true)));
+        PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(TASKS_FILEPATH, true)));
         pw.println(task.getSaveStyle());
         pw.close();
     }
@@ -96,34 +97,49 @@ public class Storage {
      * Reads the tasks.txt file and reconstructs the saved TaskList.
      * Run on program initialization.
      *
-     * @param ui AstraeaUi object to print to console.
      * @param list Empty TaskList object to populate.
+     * @return Messages containing results to be printed as Astraea.
      */
-    public String[] load(AstraeaUi ui, TaskList list) {
-        assert ui != null : "Null UI object";
+    public String[] load(TaskList list) {
         assert list != null : "Null TaskList object";
         try {
             Files.createDirectories(Paths.get("data"));
-            File file = new File("data/tasks.txt");
+            File file = new File(TASKS_FILEPATH);
             String[] message;
             if (file.createNewFile()) {
                 // no task save data found, created new file
-                ui.printBottomBoundedMessage("I have no data recorded. New storage file created.");
                 message = new String[]{"I have no data recorded. New storage file created"};
             } else {
-                // read existing save data
+                // read existing save data and repopulate list
                 read(list);
-                ui.printBottomBoundedMessage("I've retrieved your tasks from last time.");
                 message = new String[]{"I've retrieved your tasks from last time."};
             }
             return message;
         } catch (IOException e) {
-            ui.printBoundedMessage(e.getMessage());
             return new String[]{e.getMessage()};
         } catch (AstraeaFileException ae) {
             // invalid/corrupted data
             // TODO copy bad data into new file, reset to blank
             return new String[]{"I ran into a file exception."};
         }
+    }
+
+    /**
+     * Attempts to save the Task in this Storage, with IOException handling to ensure the appropriate UI message
+     * is returned. Used in all Task-creation related Command subclasses.
+     *
+     * @param task Task to be saved.
+     * @return String message that is modified only if an exception occurs.
+     */
+    public String[] saveTaskWithHandling(Task task, String[] message) {
+        try {
+            this.saveNewLine(task);
+        } catch (IOException exception) {
+            ArrayList<String> newMessage = new ArrayList<>(Arrays.asList(message));
+            newMessage.add("Something went wrong with saving data.");
+            newMessage.add(exception.getMessage());
+            message = newMessage.toArray(new String[0]);
+        }
+        return message;
     }
 }

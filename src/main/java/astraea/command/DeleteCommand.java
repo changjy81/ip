@@ -5,7 +5,6 @@ import java.io.IOException;
 import astraea.storage.Storage;
 import astraea.task.Task;
 import astraea.task.TaskList;
-import astraea.ui.AstraeaUi;
 
 /**
  * Represents a command to delete a Task.
@@ -23,10 +22,10 @@ public class DeleteCommand extends Command {
      *
      * @param list TaskList object to access and/or modify.
      * @param storage Storage object to read/write data files.
-     * @param ui AstraeaUi object to print to console.
+     * @return Messages containing results to be printed as Astraea.
      */
     @Override
-    public String[] execute(TaskList list, Storage storage, AstraeaUi ui) {
+    public String[] execute(TaskList list, Storage storage) {
         int index = Integer.parseInt(this.getArguments()[0]);
         try {
             Task task = list.remove(index - 1);
@@ -40,14 +39,11 @@ public class DeleteCommand extends Command {
             } else {
                 message[0] = "A vanished opportunity, or running away?\n\t No matter. It's been removed.";
             }
-            ui.printBoundedMessage(message);
             storage.save(list);
             return message;
         } catch (IndexOutOfBoundsException e) {
-            ui.printBoundedMessage("The index you gave me is out of bounds. Try checking list.");
             return new String[]{"The index you gave me is out of bounds. Try checking list."};
         } catch (IOException exception) {
-            ui.printBoundedMessage("Something went wrong with saving data.");
             return new String[]{"Something went wrong with saving data."};
         }
     }

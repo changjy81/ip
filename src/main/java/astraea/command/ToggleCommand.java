@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import astraea.storage.Storage;
 import astraea.task.TaskList;
-import astraea.ui.AstraeaUi;
 
 /**
  * Represents a command to change the isDone state of a Task.
@@ -22,10 +21,10 @@ public class ToggleCommand extends Command {
      *
      * @param list TaskList object to access and/or modify.
      * @param storage Storage object to read/write data files.
-     * @param ui AstraeaUi object to print to console.
+     * @return Messages containing results to be printed as Astraea.
      */
     @Override
-    public String[] execute(TaskList list, Storage storage, AstraeaUi ui) {
+    public String[] execute(TaskList list, Storage storage) {
         int index = Integer.parseInt(this.getArguments()[0]);
         try {
             String[] message;
@@ -44,14 +43,11 @@ public class ToggleCommand extends Command {
             } else {
                 message = new String[]{"Something went wrong with this command."};
             }
-            ui.printBoundedMessage(message);
             storage.save(list);
             return message;
         } catch (IndexOutOfBoundsException e) {
-            ui.printBoundedMessage("The index you gave me is out of bounds. Try checking list.");
             return new String[]{"The index you gave me is out of bounds. Try checking list."};
         } catch (IOException exception) {
-            ui.printBoundedMessage("Something went wrong with saving data.");
             return new String[]{"Something went wrong with saving data."};
         }
     }

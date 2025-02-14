@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import astraea.storage.Storage;
 import astraea.task.Task;
 import astraea.task.TaskList;
-import astraea.ui.AstraeaUi;
 
 /**
  * Represents a command to find tasks based on name.
@@ -21,10 +20,10 @@ public class FindCommand extends Command {
      *
      * @param list TaskList object to search through.
      * @param storage Not used in this method.
-     * @param ui AstraeaUi object to print results to.
+     * @return Messages containing results to be printed as Astraea.
      */
     @Override
-    public String[] execute(TaskList list, Storage storage, AstraeaUi ui) {
+    public String[] execute(TaskList list, Storage storage) {
         ArrayList<Task> foundList = new ArrayList<Task>();
         for (Task task : list) {
             if (task.getTaskName().contains(this.getArguments()[0])) {
@@ -42,7 +41,6 @@ public class FindCommand extends Command {
                 message[i] = foundList.get(i - 1).toString();
             }
         }
-        ui.printBoundedMessage(message);
         return message;
     }
 }

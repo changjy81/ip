@@ -1,13 +1,8 @@
 package astraea.command;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import astraea.storage.Storage;
 import astraea.task.Deadline;
 import astraea.task.TaskList;
-import astraea.ui.AstraeaUi;
 
 /**
  * Represents a command to create a Deadline task.
@@ -24,10 +19,10 @@ public class DeadlineCommand extends Command {
      *
      * @param list TaskList object to access and/or modify.
      * @param storage Storage object to read/write data files.
-     * @param ui AstraeaUi object to print to console.
+     * @return Messages containing results to be printed as Astraea.
      */
     @Override
-    public String[] execute(TaskList list, Storage storage, AstraeaUi ui) {
+    public String[] execute(TaskList list, Storage storage) {
         Deadline task = Deadline.createDeadline(this.getArguments()[0], this.getArguments()[1]);
         list.add(task);
         String[] message = new String[]{
@@ -35,15 +30,7 @@ public class DeadlineCommand extends Command {
             "  " + task,
             "I'm tracking " + list.size() + " of your tasks now."
         };
-        try {
-            storage.saveNewLine(task);
-        } catch (IOException exception) {
-            ArrayList<String> newMessage = new ArrayList<String>(Arrays.asList(message));
-            newMessage.add("Something went wrong with saving data.");
-            newMessage.add(exception.getMessage());
-            message = newMessage.toArray(new String[0]);
-        }
-        ui.printBoundedMessage(message);
+        message = storage.saveTaskWithHandling(task, message);
         return message;
     }
 }
