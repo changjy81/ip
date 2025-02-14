@@ -1,13 +1,8 @@
 package astraea.command;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import astraea.storage.Storage;
 import astraea.task.TaskList;
 import astraea.task.Todo;
-import astraea.ui.AstraeaUi;
 
 /**
  * Represents a command to create a Todo task.
@@ -24,10 +19,10 @@ public class TodoCommand extends Command {
      *
      * @param list TaskList object to access and/or modify.
      * @param storage Storage object to read/write data files.
-     * @param ui AstraeaUi object to print to console.
+     * @return Messages containing results to be printed as Astraea.
      */
     @Override
-    public String[] execute(TaskList list, Storage storage, AstraeaUi ui) {
+    public String[] execute(TaskList list, Storage storage) {
         Todo task = new Todo(this.getArguments()[0]);
         list.add(task);
         String[] message = new String[]{
@@ -36,7 +31,6 @@ public class TodoCommand extends Command {
             "I'm tracking " + list.size() + " of your tasks now."
         };
         message = storage.saveTaskWithHandling(task, message);
-        // ui.printBoundedMessage(message);
         return message;
     }
 }

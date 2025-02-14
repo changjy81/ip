@@ -8,7 +8,6 @@ import astraea.exception.AstraeaInputException;
 import astraea.parser.Parser;
 import astraea.storage.Storage;
 import astraea.task.TaskList;
-import astraea.ui.AstraeaUi;
 import astraea.ui.GuiController;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -21,7 +20,6 @@ import javafx.stage.Stage;
  * Main class of Astraea.
  */
 public class Astraea extends Application {
-    private final AstraeaUi ui;
     private final Storage storage;
     private final TaskList taskList;
     private boolean isExit = false;
@@ -31,7 +29,6 @@ public class Astraea extends Application {
      * Constructs a new instance of Astraea.
      */
     public Astraea() {
-        this.ui = new AstraeaUi();
         this.storage = new Storage();
         this.taskList = new TaskList();
     }
@@ -43,32 +40,18 @@ public class Astraea extends Application {
             AnchorPane ap = fxmlLoader.load();
             Scene scene = new Scene(ap);
             stage.setScene(scene);
-            controller = fxmlLoader.<GuiController>getController();
+            controller = fxmlLoader.getController();
             controller.setAstraea(this); // inject the Astraea instance
             stage.show();
-            controller.printAsAstraea(ui.intro());
-            controller.printAsAstraea(storage.load(ui, taskList));
+            controller.printAsAstraea(intro());
+            controller.printAsAstraea(storage.load(taskList));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    // obsolete class with GUI now
-    private void run() {
-        // ui.intro();
-        // storage.load(ui, taskList);
-        while (!isExit) {
-            try {
-                String input = ui.readInput();
-                Command command = Parser.parseInput(input);
-                if (command instanceof ExitCommand) {
-                    isExit = true;
-                }
-                command.execute(taskList, storage, ui);
-            } catch (AstraeaInputException ae) {
-                ui.printBoundedMessage(ae.getErrorMessage());
-            }
-        }
+    private String[] intro() {
+        return new String[] {"Astraea here. What do you want?"};
     }
 
     public static void main(String[] args) {
@@ -82,7 +65,7 @@ public class Astraea extends Application {
             if (command instanceof ExitCommand) {
                 isExit = true;
             }
-            message = command.execute(taskList, storage, ui);
+            message = command.execute(taskList, storage);
         } catch (AstraeaInputException e) {
             message = e.getErrorMessage();
         }
