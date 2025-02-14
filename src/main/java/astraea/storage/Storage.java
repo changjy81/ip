@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.function.Function;
 
 import astraea.exception.AstraeaFileException;
 import astraea.task.Deadline;
@@ -27,35 +29,38 @@ public class Storage {
     private void read(TaskList list) throws IOException, AstraeaFileException {
         BufferedReader br = new BufferedReader(new FileReader("data/tasks.txt"));
         String line;
-        Task task;
+        ArrayList<String> inputs = new ArrayList<>();
         while ((line = br.readLine()) != null) {
             if (line.isBlank()) {
                 break;
             }
-            String[] info = line.split("(\\s\\|\\s)");
-            String type = info[0];
-            boolean isDone = info[1].equals("1");
-            String name = info[2];
-            switch (type) {
-            case "T":
-                task = new Todo(name);
-                break;
-            case "D":
-                String deadline = info[3];
-                task = Deadline.createDeadline(name, deadline);
-                break;
-            case "E":
-                String start = info[3];
-                String end = info[4];
-                task = Event.createEvent(name, start, end);
-                break;
-            default:
-                throw new AstraeaFileException("badFileRead");
+            inputs.add(line);
+        }
+        Function<String, Task> makeTask = input -> {
+            try {
+                return createTask(input.split("(\\s\\|\\s)"));
+            } catch (AstraeaFileException e) {
+                throw new RuntimeException(e);
             }
-            list.add(task);
-            if (isDone) {
-                task.setDone();
-            }
+        };
+        inputs.stream().map(makeTask).forEach(list::add);
+    }
+
+    private Task createTask(String[] input) throws AstraeaFileException {
+        String type = input[0];
+        String name = input[1];
+        switch (type) {
+        case "T":
+            return new Todo(name);
+        case "D":
+            String deadline = input[3];
+            return Deadline.createDeadline(name, deadline);
+        case "E":
+            String start = input[3];
+            String end = input[4];
+            return Event.createEvent(name, start, end);
+        default:
+            throw new AstraeaFileException("badFileRead");
         }
     }
 
