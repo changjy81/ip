@@ -54,6 +54,7 @@ public class Astraea extends Application {
         return new String[] {"Astraea here. What do you want?"};
     }
 
+    // obsolete now with main Launcher for GUI
     public static void main(String[] args) {
         // new Astraea().run();
     }

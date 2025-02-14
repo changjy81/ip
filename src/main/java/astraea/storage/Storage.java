@@ -24,9 +24,10 @@ import astraea.task.Todo;
  * Represents the object used to read from and write to files.
  */
 public class Storage {
+    private static final String TASKS_FILEPATH = "data/tasks.txt";
 
     private void read(TaskList list) throws IOException, AstraeaFileException {
-        BufferedReader br = new BufferedReader(new FileReader("data/tasks.txt"));
+        BufferedReader br = new BufferedReader(new FileReader(TASKS_FILEPATH));
         String line;
         while ((line = br.readLine()) != null) {
             this.parseLine(line, list);
@@ -73,7 +74,8 @@ public class Storage {
      * @throws IOException Thrown if an I/O exception occurs.
      */
     public void save(TaskList list) throws IOException {
-        PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("data/tasks.txt")));
+        assert list != null : "Null list being saved";
+        PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(TASKS_FILEPATH)));
         for (Task task : list) {
             pw.println(task.getSaveStyle());
         }
@@ -87,7 +89,8 @@ public class Storage {
      * @throws IOException Thrown if an I/O exception occurs.
      */
     public void saveNewLine(Task task) throws IOException {
-        PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("data/tasks.txt", true)));
+        assert task != null : "Null task being saved";
+        PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(TASKS_FILEPATH, true)));
         pw.println(task.getSaveStyle());
         pw.close();
     }
@@ -100,9 +103,10 @@ public class Storage {
      * @return Messages containing results to be printed as Astraea.
      */
     public String[] load(TaskList list) {
+        assert list != null : "Null TaskList object";
         try {
             Files.createDirectories(Paths.get("data"));
-            File file = new File("data/tasks.txt");
+            File file = new File(TASKS_FILEPATH);
             String[] message;
             if (file.createNewFile()) {
                 // no task save data found, created new file

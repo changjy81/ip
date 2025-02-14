@@ -22,9 +22,8 @@ public class GuiController {
     private Button sendButton;
 
     private Astraea astraea;
-
-    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/DaUser.png"));
-    private Image astraeaImage = new Image(this.getClass().getResourceAsStream("/images/DaDuke.png"));
+    private final Image userImage = new Image(this.getClass().getResourceAsStream("/images/DaUser.png"));
+    private final Image astraeaImage = new Image(this.getClass().getResourceAsStream("/images/DaDuke.png"));
 
     @FXML
     public void initialize() {
@@ -53,6 +52,7 @@ public class GuiController {
     private void handleUserInput() {
         String input = userInput.getText();
         String[] response = astraea.getResponse(input);
+        assert response != null;
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(new String[]{input}, userImage),
                 DialogBox.getAstraeaDialog(response, astraeaImage)
