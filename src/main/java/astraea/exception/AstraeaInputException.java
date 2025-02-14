@@ -54,6 +54,22 @@ public class AstraeaInputException extends Exception {
             "If you wanted to search for blankness I'd suggest looking in your head.",
             "Usage: find [query]"
         };
+        case "add_alias_wrongUsage" -> new String[]{
+            "In some universes, trying to give a name so carelessly would get you killed.",
+            "Usage: add_alias [command] [name]"
+        };
+        case "add_alias_invalidCommand" -> new String[]{
+            "That's not even a command you're trying to rename.",
+            "Usage: add_alias [command] [name]"
+        };
+        case "add_alias_existingName" -> new String[]{
+            "Do you like giving all of your things the same name? Hopefully not your passwords...",
+            "Usage: add_alias [command] [name]"
+        };
+        case "remove_alias_wrongUsage" -> new String[]{
+            "You say you named that? You might be hallucinating.",
+            "Usage: remove_alias [name]"
+        };
         case "empty" -> new String[]{
             "I can't do anything with nothing, you know."
         };
