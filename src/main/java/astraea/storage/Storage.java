@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.function.Function;
 
 import astraea.exception.AstraeaFileException;
 import astraea.task.Deadline;
@@ -29,41 +30,38 @@ public class Storage {
     private void read(TaskList list) throws IOException, AstraeaFileException {
         BufferedReader br = new BufferedReader(new FileReader(TASKS_FILEPATH));
         String line;
+        ArrayList<String> inputs = new ArrayList<>();
         while ((line = br.readLine()) != null) {
-            this.parseLine(line, list);
+            if (line.isBlank()) {
+                break;
+            }
+            inputs.add(line);
         }
+        Function<String, Task> makeTask = input -> {
+            try {
+                return createTask(input.split("(\\s\\|\\s)"));
+            } catch (AstraeaFileException e) {
+                throw new RuntimeException(e);
+            }
+        };
+        inputs.stream().map(makeTask).forEach(list::add);
     }
 
-    private void parseLine(String line, TaskList list) throws AstraeaFileException {
-        Task task;
-        if (line.isBlank()) {
-            return;
-        }
-
-        String[] info = line.split("(\\s\\|\\s)");
-        String type = info[0];
-        String name = info[2];
+    private Task createTask(String[] input) throws AstraeaFileException {
+        String type = input[0];
+        String name = input[1];
         switch (type) {
         case "T":
-            task = new Todo(name);
-            break;
+            return new Todo(name);
         case "D":
-            String deadline = info[3];
-            task = Deadline.createDeadline(name, deadline);
-            break;
+            String deadline = input[3];
+            return Deadline.createDeadline(name, deadline);
         case "E":
-            String start = info[3];
-            String end = info[4];
-            task = Event.createEvent(name, start, end);
-            break;
+            String start = input[3];
+            String end = input[4];
+            return Event.createEvent(name, start, end);
         default:
             throw new AstraeaFileException("badFileRead");
-        }
-        list.add(task);
-
-        boolean isDone = info[1].equals("1");
-        if (isDone) {
-            task.setDone();
         }
     }
 
