@@ -35,15 +35,8 @@ public class DeadlineCommand extends Command {
             "  " + task,
             "I'm tracking " + list.size() + " of your tasks now."
         };
-        try {
-            storage.saveNewLine(task);
-        } catch (IOException exception) {
-            ArrayList<String> newMessage = new ArrayList<String>(Arrays.asList(message));
-            newMessage.add("Something went wrong with saving data.");
-            newMessage.add(exception.getMessage());
-            message = newMessage.toArray(new String[0]);
-        }
-        ui.printBoundedMessage(message);
+        message = storage.saveTaskWithHandling(task, message);
+        // ui.printBoundedMessage(message);
         return message;
     }
 }
