@@ -35,7 +35,6 @@ public class DateParser {
     public static boolean isLocalDateTime(String str) {
         try {
             LocalDateTime.parse(str, DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm"));
-            // System.out.println("detected datetime");
             return true;
         } catch (DateTimeParseException e) {
             return false;

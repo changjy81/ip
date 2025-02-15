@@ -1,5 +1,8 @@
 package astraea.parser;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import astraea.command.AddAliasCommand;
 import astraea.command.Alias;
 import astraea.command.Command;
@@ -35,7 +38,7 @@ public class Parser {
             throw new AstraeaInputException("empty");
         }
         String[] tokens = input.split("\\s+");
-        String command = checkAlias(tokens[0]);
+        String command = Alias.findCommandOfAlias(tokens[0]);
         return switch (command) {
         case "list" -> new ListCommand(CommandType.LIST, null);
         case "mark" -> new ToggleCommand(CommandType.MARK, processSingleNumberToken(tokens));
@@ -50,10 +53,6 @@ public class Parser {
         case "bye" -> new ExitCommand(CommandType.EXIT, null);
         default -> throw new AstraeaInputException("invalid");
         };
-    }
-
-    private static String checkAlias(String input) {
-        return Alias.findCommandOfAlias(input);
     }
 
     private static String[] processSingleNumberToken(String[] tokens) throws AstraeaInputException {
@@ -90,85 +89,93 @@ public class Parser {
         return new String[] { name.toString() };
     }
 
+    // All methods regarding Deadline and Event processing were rewritten by ChatGPT.
+
     private static String[] processDeadlineTokens(String[] tokens) throws AstraeaInputException {
-        StringBuilder name = new StringBuilder();
-        StringBuilder deadline = new StringBuilder();
-        boolean deadlineFlag = false;
+        Map<String, StringBuilder> parsedTokens = parseDeadlineTokens(tokens);
+
+        validateDeadlineTokens(parsedTokens);
+
+        return new String[]{
+            parsedTokens.get("name").toString(),
+            parsedTokens.get("deadline").toString()
+        };
+    }
+
+    private static Map<String, StringBuilder> parseDeadlineTokens(String[] tokens) {
+        Map<String, StringBuilder> tokenMap = new HashMap<>();
+        tokenMap.put("name", new StringBuilder());
+        tokenMap.put("deadline", new StringBuilder());
+
+        boolean isDeadline = false;
 
         for (int i = 1; i < tokens.length; i++) {
             if (tokens[i].equals("/by")) {
-                deadlineFlag = true;
+                isDeadline = true;
                 continue;
             }
-            if (deadlineFlag) {
-                if (!deadline.isEmpty()) {
-                    deadline.append(" ");
-                }
-                deadline.append(tokens[i]);
-            } else {
-                if (!name.isEmpty()) {
-                    name.append(" ");
-                }
-                name.append(tokens[i]);
-            }
+            appendToToken(tokenMap.get(isDeadline ? "deadline" : "name"), tokens[i]);
         }
+        return tokenMap;
+    }
 
-        if (name.isEmpty()) {
+    private static void validateDeadlineTokens(Map<String, StringBuilder> tokens) throws AstraeaInputException {
+        if (tokens.get("name").isEmpty()) {
             throw new AstraeaInputException("deadline_noName");
         }
-        if (deadline.isEmpty()) {
+        if (tokens.get("deadline").isEmpty()) {
             throw new AstraeaInputException("deadline_noTime");
         }
-
-        return new String[]{ name.toString(), deadline.toString() };
     }
 
     private static String[] processEventTokens(String[] tokens) throws AstraeaInputException {
-        StringBuilder name = new StringBuilder();
-        StringBuilder start = new StringBuilder();
-        StringBuilder end = new StringBuilder();
-        short divider = 0;
+        Map<String, StringBuilder> parsedTokens = parseEventTokens(tokens);
 
+        validateEventTokens(parsedTokens);
+
+        return new String[]{
+            parsedTokens.get("name").toString(),
+            parsedTokens.get("start").toString(),
+            parsedTokens.get("end").toString()
+        };
+    }
+
+    private static Map<String, StringBuilder> parseEventTokens(String[] tokens) {
+        Map<String, StringBuilder> tokenMap = new HashMap<>();
+        tokenMap.put("name", new StringBuilder());
+        tokenMap.put("start", new StringBuilder());
+        tokenMap.put("end", new StringBuilder());
+
+        String key = "name"; // Default to event name
         for (int i = 1; i < tokens.length; i++) {
-            String input = tokens[i];
-            if (input.equals("/from")) {
-                divider = 1;
-                continue;
-            }
-            if (input.equals("/to")) {
-                divider = 2;
-                continue;
-            }
-            if (divider == 2) {
-                if (!end.isEmpty()) {
-                    end.append(" ");
-                }
-                end.append(input);
-            } else if (divider == 1) {
-                if (!start.isEmpty()) {
-                    start.append(" ");
-                }
-                start.append(input);
-            } else {
-                if (!name.isEmpty()) {
-                    name.append(" ");
-                }
-                name.append(input);
+            switch (tokens[i]) {
+            case "/from" -> key = "start";
+            case "/to" -> key = "end";
+            default -> appendToToken(tokenMap.get(key), tokens[i]);
             }
         }
+        return tokenMap;
+    }
 
-        if (name.isEmpty()) {
+    private static void appendToToken(StringBuilder sb, String token) {
+        if (!sb.isEmpty()) {
+            sb.append(" ");
+        }
+        sb.append(token);
+    }
+
+    private static void validateEventTokens(Map<String, StringBuilder> tokens) throws AstraeaInputException {
+        if (tokens.get("name").isEmpty()) {
             throw new AstraeaInputException("event_noName");
         }
-        if (start.isEmpty()) {
+        if (tokens.get("start").isEmpty()) {
             throw new AstraeaInputException("event_noStart");
         }
-        if (end.isEmpty()) {
+        if (tokens.get("end").isEmpty()) {
             throw new AstraeaInputException("event_noEnd");
         }
-
-        return new String[] { name.toString(), start.toString(), end.toString() };
     }
+
 
     private static String[] processAddAliasTokens(String[] tokens) throws AstraeaInputException {
         if (tokens.length != 3) {

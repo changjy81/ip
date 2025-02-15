@@ -1,7 +1,9 @@
 package astraea.parser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +20,7 @@ import astraea.exception.AstraeaInputException;
 
 public class ParserTest {
     @Test
-    public void commandParse_validInput_success() throws AstraeaInputException {
+    public void commandParse_validTaskInput_success() throws AstraeaInputException {
         Command cmd;
 
         // valid list command returns ListCommand
@@ -57,104 +59,38 @@ public class ParserTest {
     }
 
     @Test
-    public void commandParse_invalidInput_exceptionThrown() {
-        try {
-            Parser.parseInput("");
-            fail();
-        } catch (AstraeaInputException ae) {
-            assertEquals(new AstraeaInputException("empty"), ae);
-        }
+    public void commandParse_validAliasInput_success() throws AstraeaInputException {
+        Command cmd;
 
-        try {
-            Parser.parseInput("pretend this is button mashing");
-            fail();
-        } catch (AstraeaInputException ae) {
-            assertEquals(new AstraeaInputException("invalid"), ae);
-        }
-
-        try {
-            Parser.parseInput("mark   ");
-            fail();
-        } catch (AstraeaInputException ae) {
-            assertEquals(new AstraeaInputException("mark"), ae);
-        }
-
-        try {
-            Parser.parseInput("mark notANumber");
-            fail();
-        } catch (AstraeaInputException ae) {
-            assertEquals(new AstraeaInputException("mark"), ae);
-        }
-
-        try {
-            Parser.parseInput("mark 5068096 068405");
-            fail();
-        } catch (AstraeaInputException ae) {
-            assertEquals(new AstraeaInputException("mark"), ae);
-        }
-
-        try {
-            Parser.parseInput("unmark   ");
-            fail();
-        } catch (AstraeaInputException ae) {
-            assertEquals(new AstraeaInputException("unmark"), ae);
-        }
-
-        try {
-            Parser.parseInput("unmark notANumber");
-            fail();
-        } catch (AstraeaInputException ae) {
-            assertEquals(new AstraeaInputException("unmark"), ae);
-        }
-
-        try {
-            Parser.parseInput("unmark 1 0 0 0 0 0 0");
-            fail();
-        } catch (AstraeaInputException ae) {
-            assertEquals(new AstraeaInputException("unmark"), ae);
-        }
-
-        try {
-            Parser.parseInput("todo   ");
-            fail();
-        } catch (AstraeaInputException ae) {
-            assertEquals(new AstraeaInputException("todo_noName"), ae);
-        }
-
-        try {
-            Parser.parseInput("deadline   ");
-            fail();
-        } catch (AstraeaInputException ae) {
-            assertEquals(new AstraeaInputException("deadline_noName"), ae);
-        }
-
-        try {
-            Parser.parseInput("deadline test name without deadline time");
-            fail();
-        } catch (AstraeaInputException ae) {
-            assertEquals(new AstraeaInputException("deadline_noTime"), ae);
-        }
-
-        try {
-            Parser.parseInput("event /from start time /to end time");
-            fail();
-        } catch (AstraeaInputException ae) {
-            assertEquals(new AstraeaInputException("event_noName"), ae);
-        }
-
-        try {
-            Parser.parseInput("event test name without start /to end time");
-            fail();
-        } catch (AstraeaInputException ae) {
-            assertEquals(new AstraeaInputException("event_noStart"), ae);
-        }
-
-        try {
-            Parser.parseInput("event test name /from start time without end");
-        } catch (AstraeaInputException ae) {
-            assertEquals(new AstraeaInputException("event_noEnd"), ae);
-        }
-
+        cmd = Parser.parseInput("");
+        assertEquals(new ListCommand(CommandType.LIST, null), cmd);
     }
+
+    // rewritten by ChatGPT to avoid repeated try-catch blocks
+    @Test
+    public void commandParse_invalidInput_exceptionThrown() {
+        Stream.of(
+            new TestCase("", "empty"),
+            new TestCase("pretend this is button mashing", "invalid"),
+            new TestCase("mark   ", "mark"),
+            new TestCase("mark notANumber", "mark"),
+            new TestCase("mark 5068096 068405", "mark"),
+            new TestCase("unmark   ", "unmark"),
+            new TestCase("unmark notANumber", "unmark"),
+            new TestCase("unmark 1 0 0 0 0 0 0", "unmark"),
+            new TestCase("todo   ", "todo_noName"),
+            new TestCase("deadline   ", "deadline_noName"),
+            new TestCase("deadline test name without deadline time", "deadline_noTime"),
+            new TestCase("event /from start time /to end time", "event_noName"),
+            new TestCase("event test name without start /to end time", "event_noStart"),
+            new TestCase("event test name /from start time without end", "event_noEnd")
+        ).forEach(testCase -> {
+            AstraeaInputException exception = assertThrows(
+                    AstraeaInputException.class, () -> Parser.parseInput(testCase.input));
+            assertEquals(new AstraeaInputException(testCase.expectedError), exception);
+        });
+    }
+
+    private record TestCase(String input, String expectedError) {}
 
 }
