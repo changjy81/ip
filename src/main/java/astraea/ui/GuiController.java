@@ -9,7 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 
 /**
- * Controller for the main GUI.
+ * Serves as the controller for the main GUI.
  */
 public class GuiController {
     @FXML
