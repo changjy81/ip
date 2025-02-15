@@ -10,6 +10,10 @@ import astraea.task.TaskList;
  * This class should never be instantiated and serves only as a base for differentiated Command subclasses.
  */
 public abstract class Command {
+    public static final String[] NAMES = new String[] {
+        "list", "mark", "unmark", "todo", "deadline", "event", "delete", "find",
+        "add_alias", "delete_alias", "bye"
+    };
     private final CommandType commandType;
     private final String[] args;
 
@@ -43,7 +47,7 @@ public abstract class Command {
     }
 
     /**
-     * Shell function for command execution. Does nothing in the base Command class.
+     * Serves as the shell function for command execution. Does nothing in the base Command class.
      *
      * @param list TaskList object to access and/or modify.
      * @param storage Storage object to read/write data files.
@@ -54,7 +58,7 @@ public abstract class Command {
     }
 
     /**
-     * Implementation of equals method to compare Command objects by stored data instead of object ID.
+     * Compares Command objects by stored data instead of object ID.
      *
      * @param o Object to compare against.
      * @return Boolean value representing whether the object is equal to this.
