@@ -36,6 +36,8 @@ public class Parser {
     public static Command parseInput(String input) throws AstraeaInputException {
         if (input.isEmpty()) {
             throw new AstraeaInputException("empty");
+        } else if (input.contains("|")) {
+            throw new AstraeaInputException("pipeChar");
         }
         String[] tokens = input.split("\\s+");
         String command = Alias.findCommandOfAlias(tokens[0]);

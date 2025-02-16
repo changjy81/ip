@@ -69,6 +69,10 @@ public class AstraeaInputException extends Exception {
         ERROR_MESSAGES.put("empty", new String[]{
             "I can't do anything with nothing, you know."
         });
+        ERROR_MESSAGES.put("pipeChar", new String[]{
+            "The divine scriptures restrict the use of the pipe | character.",
+            "Don't use it, unless you like your data becoming an eldritch horror."
+        });
     }
 
     public AstraeaInputException(String type) {
