@@ -182,7 +182,7 @@ public class Parser {
             throw new AstraeaInputException("add_alias_wrongUsage");
         } else if (!Alias.checkCommand(tokens[1])) {
             throw new AstraeaInputException("add_alias_invalidCommand");
-        } else if (Alias.checkCommand(tokens[2])) {
+        } else if (Alias.checkCommand(tokens[2]) || Alias.checkAlias(tokens[2])) {
             throw new AstraeaInputException("add_alias_existingName");
         }
         return new String[] { tokens[1], tokens[2] };
