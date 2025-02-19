@@ -70,9 +70,9 @@ public class Event extends Task {
      */
     public String getStartTime() {
         if (startDateTime != null) {
-            return startDateTime.format(DateTimeFormatter.ofPattern("MMMM d, yyyy"));
+            return startDateTime.format(DateTimeFormatter.ofPattern("HH:mm, MMMM d, yyyy"));
         } else if (startDate != null) {
-            return startDate.format(DateTimeFormatter.ofPattern("HH:mm, MMMM d, yyyy"));
+            return startDate.format(DateTimeFormatter.ofPattern("MMMM d, yyyy"));
         } else {
             return startTime;
         }
@@ -86,9 +86,9 @@ public class Event extends Task {
      */
     public String getEndTime() {
         if (endDateTime != null) {
-            return endDateTime.format(DateTimeFormatter.ofPattern("MMMM d, yyyy"));
+            return endDateTime.format(DateTimeFormatter.ofPattern("HH:mm, MMMM d, yyyy"));
         } else if (endDate != null) {
-            return endDate.format(DateTimeFormatter.ofPattern("HH:mm, MMMM d, yyyy"));
+            return endDate.format(DateTimeFormatter.ofPattern("MMMM d, yyyy"));
         } else {
             return endTime;
         }
