@@ -42,6 +42,7 @@ public class Astraea extends Application {
             stage.setScene(scene);
             controller = fxmlLoader.getController();
             controller.setAstraea(this); // inject the Astraea instance
+            stage.setTitle("Astraea");
             stage.show();
             controller.printAsAstraea(intro());
             controller.printAsAstraea(storage.load(taskList));
