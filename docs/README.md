@@ -9,6 +9,7 @@ Add, list or remove tasks, mark or unmark tasks as
 completed, search through tasks based on name, and set your own aliases for all built-in commands.
 
 >Command format below places user-specified input in [square brackets]. All other text should exactly match.
+>**User input is not allowed to contain the pipe character "|"**.
 
 ## Features
 
