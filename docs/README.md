@@ -74,6 +74,13 @@ Removes an existing alias for a built-in command. Warns the user if the alias na
 
 Format: `remove_alias [alias name]`
 
+### Exit: `bye`
+
+Shows an exit message, greys out and prevents the input field and button from being used, then closes the application
+after 5 seconds.
+
+Format: `bye`
+
 ## Saving the data
 
 Astraea automatically saves the tasks and aliases you create whenever their state is updated.  

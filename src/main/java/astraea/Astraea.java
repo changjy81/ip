@@ -9,12 +9,14 @@ import astraea.parser.Parser;
 import astraea.storage.Storage;
 import astraea.task.TaskList;
 import astraea.ui.GuiController;
+import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  * Main class of Astraea.
@@ -24,6 +26,7 @@ public class Astraea extends Application {
     private final TaskList taskList;
     private boolean isExit = false;
     private GuiController controller;
+    private boolean hasExited = false;
 
     /**
      * Constructs a new instance of Astraea.
@@ -47,7 +50,7 @@ public class Astraea extends Application {
             controller.printAsAstraea(intro());
             controller.printAsAstraea(storage.load(taskList));
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
@@ -68,7 +71,14 @@ public class Astraea extends Application {
         }
 
         if (isExit) {
-            this.stop();
+            // stop user inputs in the text box and button
+            controller.stopInputs();
+            // Wait for 5 seconds before exiting
+            PauseTransition delay = new PauseTransition(Duration.seconds(5));
+            delay.setOnFinished(event -> {
+                stop(); // Ensure stop() is called only after the delay
+            });
+            delay.play();
         }
 
         return message;
@@ -76,16 +86,14 @@ public class Astraea extends Application {
 
     @Override
     public void stop() {
-        controller.stopInputs();
-        // Run sleep in a new thread to avoid blocking JavaFX
-        new Thread(() -> {
-            try {
-                Thread.sleep(5000); // Sleep without locking JavaFX thread
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt(); // Restore interrupted status
-            }
-            Platform.runLater(Platform::exit); // Ensure it runs on JavaFX thread
-        }).start();
+        if (hasExited) {
+            return;
+        }
+        hasExited = true;
+
+        new Thread(() -> Platform.runLater(Platform::exit)).start();
     }
+
+
 
 }

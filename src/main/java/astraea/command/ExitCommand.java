@@ -22,6 +22,6 @@ public class ExitCommand extends Command {
      */
     @Override
     public String[] execute(TaskList list, Storage storage) {
-        return null;
+        return new String[]{"Well. Be on your way, then."};
     }
 }
